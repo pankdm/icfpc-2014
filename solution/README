@@ -1,0 +1,18 @@
+Lambda-man AI:
+We've used BFS for computing cost function of each of the possible moves. Cost fucntion depends on:
+1. Shortest distances to pills
+2. Distance to closest pill
+3. Distance to closest ghost
+4. Distance to fruit
+5. Fright mode
+To fit in the time limit we've limited positions that are considered in BFS to the window of size 31 x 31 with the center in Lambda-man.
+This algorithm was implemented in python, see smart_algo_implementation.py
+
+For implementing Lambda-man AI, we've used some simplified dialect of Python, which was translated to syntax tree, which were used for generation of Lambda-man CPU assembly language. This allowed us to do development of algorithm in python using our world emulator (emulator.py), while compilator to Lambda-man CPU assembly language was developed.
+The compilator was implemented using python module ast and supports some features that are not part of original Lambda-man CPU (for example arrays).
+
+Ghosts AI:
+It selects the cell which is the closest to lambda-man according to Manhattan distance (abs(x1 - x2) + abs(y1 - y2)). It will also try to choose the furthest cell if Lambda-man is in fright mode.
+The code was written mostly manualy with some tools that simplify implementation of code by generation of functions and some other features.
+
+Also we implementation interpretator of Lambda-man assembly language, but we didn't get to the point where we could get benefits from it.

@@ -1,0 +1,167 @@
+; returns min(E, F)
+function min:  
+    jlt ret_min, E, F
+    mov E, F
+  ret_min:
+    return E
+
+; returns max(E, F)
+function max:
+    jgt ret_max, E, F
+    mov E, F
+  ret_max:
+    return E
+
+; swaps E and F
+function swap:
+    xor E, F
+    xor F, E
+    xor E, F
+    return
+
+; returns abs(E - F)
+function dist:
+    jgt calc_dist, E, F
+    call swap
+  calc_dist:
+    sub E, F
+    return E
+
+; opposite to dir B
+function opposite:
+    add B, 2
+    and B, 3
+    return B
+
+function get_my_coords:
+    int 3 ; ghost index -> A
+    int 5 ; x, y -> A, B
+    mov [0], A
+    mov [1], B
+    return
+
+function get_lambda_coords:
+    int 1
+    mov [2], A
+    mov [3], B
+    return
+
+; move (E, F) to direction D
+function move:
+    jeq move_up, D, 0
+    jeq move_right, D, 1
+    jeq move_down, D, 2
+    jeq move_left, D, 3
+  move_up:
+    sub F, 1
+    jeq ret_move, 0, 0
+  move_right:
+    add E, 1
+    jeq ret_move, 0, 0
+  move_down:
+    add F, 1
+    jeq ret_move, 0, 0
+  move_left:
+    sub E, 1
+    jeq ret_move, 0, 0
+  ret_move:
+    return
+
+; cell (A, B) has wall
+function is_free:
+    int 7
+    jeq ret_is_free, A, 0
+    mov A, 1
+  ret_is_free:
+    return A
+
+function get_dist:
+    mov [10], E
+    mov [11], F
+    mov F, [2]
+    call dist
+    mov [12], D
+    mov E, [11]
+    mov F, [3]
+    call dist
+    add [12], D
+    return [12]
+
+function run_away:
+    mov [10], E
+    mov [11], F
+    mov F, [2]
+    call dist
+    mov [12], D
+    mov E, [11]
+    mov F, [3]
+    call dist
+    mov E, [12]
+    mov F, D
+    call max
+    jgt fight_yeah, D, 5
+    mov D, [109]
+    jeq ret_away, 0, 0
+  fight_yeah:
+    mov D, 0
+  ret_away:
+    return D
+
+; END OF FUNCTIONS
+
+main:
+    call get_lambda_coords
+    call get_my_coords
+
+    mov [101], 255  ; best dist
+
+    mov E, [0]
+    mov F, [1]
+    call get_dist
+    mov [99], 127   ; shift
+    sub [99], D
+
+    int 3
+    int 6
+    mov G, B        ; best move
+    and A, 1
+    mov [109], A  ; fright mode is on
+    call opposite
+    mov [110], D  ; bad direction
+
+    mov E, [0]
+    mov F, [1]
+    call run_away
+    mov [109], D
+
+    mov H, 0
+  dir_loop:
+      jeq continue_dir_loop, H, [110]  ; do not go opposite
+
+      mov E, [0]
+      mov F, [1]
+      mov D, H
+      call move  ; get moved cell
+      mov A, E
+      mov B, F
+      call is_free
+      jeq continue_dir_loop, D, 0  ; if wall then continue
+
+      call get_dist
+
+      jeq fight, [109], 0
+      jlt continue_dir_loop, D, [101]
+      mov [101], D
+      mov G, H
+    fight:
+      jgt continue_dir_loop, D, [101]
+      mov [101], D
+      mov G, H
+    continue_dir_loop:
+      add H, 1
+      jlt dir_loop, H, 4
+
+    mov A, G
+    int 0
+    hlt
+

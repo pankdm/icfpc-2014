@@ -1,0 +1,4 @@
+class P2LConfig:
+    NUM_REGISTERS = 2
+    MAIN_IN_SUBMIT_MODE = 'main'
+    MAX_LAPSHA_INDEX = 2048 

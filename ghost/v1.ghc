@@ -1,0 +1,90 @@
+mov C, 2
+jeq 81, 0, 0
+mov C, 4
+jeq 75, 0, 0
+mov [101], 255
+mov G, 0
+mov H, 0
+mov E, [0]
+mov F, [1]
+mov D, H
+mov C, 12
+jeq 56, 0, 0
+mov [4], E
+mov [5], F
+mov A, E
+mov B, F
+mov C, 18
+jeq 70, 0, 0
+jeq 32, D, 0
+mov E, [2]
+mov F, [4]
+mov C, 23
+jeq 42, 0, 0
+mov [100], D
+mov E, [3]
+mov F, [5]
+mov C, 28
+jeq 42, 0, 0
+add [100], D
+jgt 32, [100], [101]
+mov [101], [100]
+mov G, H
+add H, 1
+jlt 7, H, 4
+mov A, [0]
+mov B, [1]
+mov C, G
+mov D, [101]
+int 8
+mov A, G
+int 0
+hlt
+jgt 46, E, F
+xor E, F
+xor F, E
+xor E, F
+sub E, F
+mov D, E
+jeq 23, C, 23
+jeq 28, C, 28
+jlt 52, E, F
+mov E, F
+mov D, E
+jgt 55, E, F
+mov E, F
+mov D, E
+jeq 60, D, 0
+jeq 62, D, 1
+jeq 64, D, 2
+jeq 66, D, 3
+sub F, 1
+jeq 68, 0, 0
+add E, 1
+jeq 68, 0, 0
+add F, 1
+jeq 68, 0, 0
+sub E, 1
+jeq 68, 0, 0
+mov D, 0
+jeq 12, C, 12
+int 7
+jeq 73, A, 0
+mov A, 1
+mov D, A
+jeq 18, C, 18
+int 3
+int 5
+mov [0], A
+mov [1], B
+mov D, 0
+jeq 4, C, 4
+int 1
+mov [2], A
+mov [3], B
+mov D, 0
+jeq 2, C, 2
+xor E, F
+xor F, E
+xor E, F
+mov D, 0

@@ -1,0 +1,173 @@
+; TODO: inc, dec functions
+
+function push:
+    sub [255], 1
+    mov B, [255]
+    mov [B], A
+
+function pop:
+    mov B, [255]
+    mov A, [B]
+    add [255], 1
+
+; returns min(A, B)
+function min:  
+    jlt ret_min, A, B
+    mov A, B
+  ret_min:
+    return
+
+; returns max(A, B)
+function max:
+    jgt ret_max, A, B
+    mov A, B
+  ret_max:
+    return
+
+; swaps A and B
+function swap:
+    xor A, B
+    xor B, A
+    xor A, B
+    return
+
+; returns abs(A - B)
+function dist:
+    jgt calc_dist, A, B
+    call swap
+  calc_dist:
+    sub A, B
+    return
+
+; opposite to dir B
+function opposite:
+    add B, 2
+    and B, 3
+    return B
+
+function get_my_coords:
+    int 3
+    int 5
+    mov <my_x>, A
+    mov <my_y>, B
+    return
+
+function get_lambda_coords:
+    int 1
+    mov <lambda_x>, A
+    mov <lambda_y>, B
+    return
+
+; move (A, B) to direction C
+function move:
+    jeq move_up, C, 0
+    jeq move_right, C, 1
+    jeq move_down, C, 2
+  move_left:
+    sub A, 1
+    jeq ret_move, 0, 0
+  move_up:
+    sub B, 1
+    jeq ret_move, 0, 0
+  move_right:
+    add A, 1
+    jeq ret_move, 0, 0
+  move_down:
+    add B, 1
+  ret_move:
+    return
+
+; cell (A, B) has wall
+function is_free:
+    int 7
+    jeq ret_is_free, A, 0
+    mov A, 1
+  ret_is_free:
+    return
+
+function get_dist:
+    mov <temp_y>, B
+    mov B, <lambda_x>
+    call dist
+    mov <temp_dist>, A
+    mov A, <temp_y>
+    mov B, <lambda_y>
+    call dist
+    add A, <temp_dist>
+    return
+
+function run_away:
+    mov <temp_y>, B
+    mov B, <lambda_x>
+    call dist
+    mov <temp_dist>, A
+    mov A, <temp_y>
+    mov B, <lambda_y>
+    call dist
+    mov B, <temp_dist>
+    call max
+    jgt fight_yeah, A, 5
+    mov A, <frightened>
+    jeq ret_away, 0, 0
+  fight_yeah:
+    mov A, 0
+  ret_away:
+    return
+
+function main:
+    call get_lambda_coords
+    call get_my_coords
+
+    mov <best_dist>, 255
+
+    mov A, <my_x>
+    mov B, <my_y>
+    call get_dist
+    mov <shift>, 127
+    sub <shift>, A
+
+    int 3
+    int 6
+    mov G, B  ; G - best move
+    and A, 1
+    mov <frightened>, A
+    call opposite
+    mov <bad_dir>, A
+
+    mov A, <my_x>
+    mov B, <my_y>
+    call run_away
+    mov <frightened>, A
+
+    mov H, 0  ; H - loop index
+  dir_loop:
+      jeq continue_dir_loop, H, <bad_dir>  ; do not go opposite
+
+      mov A, <my_x>
+      mov B, <my_y>
+      mov C, H
+      call move  ; get moved cell
+      mov E, A
+      mov F, B
+
+      call is_free
+      jeq continue_dir_loop, A, 0  ; do not go to wall
+
+      mov A, E
+      mov B, F
+      call get_dist
+
+      jeq fight, <frightened>, 0
+      jlt continue_dir_loop, A, <best_dist>
+      mov <best_dist>, A
+      mov G, H
+    fight:
+      jgt continue_dir_loop, A, <best_dist>
+      mov <best_dist>, A
+      mov G, H
+    continue_dir_loop:
+      add H, 1
+      jlt dir_loop, H, 4
+
+    return G
+

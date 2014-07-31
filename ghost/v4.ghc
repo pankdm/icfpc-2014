@@ -1,0 +1,136 @@
+mov [206], 2 ;main; <- auto_ret_point_0; <- get_lambda_coords_###
+jeq 112, 0, 0; <- get_lambda_coords
+mov [205], 4 ;auto_ret_point_0; <- auto_ret_point_1; <- get_my_coords_###
+jeq 106, 0, 0; <- get_my_coords
+mov [101], 255 ;auto_ret_point_1
+mov E, [0]
+mov F, [1]
+mov [209], 9; <- auto_ret_point_2; <- get_dist_###
+jeq 122, 0, 0; <- get_dist
+mov [99], 127 ;auto_ret_point_2
+sub [99], D
+int 3
+int 6
+mov G, B
+and A, 1
+mov [109], A
+mov [204], 18; <- auto_ret_point_3; <- opposite_###
+jeq 73, 0, 0; <- opposite
+mov [110], D ;auto_ret_point_3
+mov E, [0]
+mov F, [1]
+mov [210], 23; <- run_away_###; <- auto_ret_point_4
+jeq 81, 0, 0; <- run_away
+mov [109], D ;auto_ret_point_4
+mov H, 0
+jeq 45, H, [110] ;dir_loop; <- continue_dir_loop
+mov E, [0]
+mov F, [1]
+mov D, H
+mov [207], 31; <- auto_ret_point_5; <- move_###
+jeq 50, 0, 0; <- move
+mov A, E ;auto_ret_point_5
+mov B, F
+mov [208], 35; <- is_free_###; <- auto_ret_point_6
+jeq 101, 0, 0; <- is_free
+jeq 45, D, 0 ;auto_ret_point_6; <- continue_dir_loop
+mov [209], 38; <- auto_ret_point_7; <- get_dist_###
+jeq 122, 0, 0; <- get_dist
+jeq 42, [109], 0 ;auto_ret_point_7; <- fight
+jlt 45, D, [101]; <- continue_dir_loop
+mov [101], D
+mov G, H
+jgt 45, D, [101] ;fight; <- continue_dir_loop
+mov [101], D
+mov G, H
+add H, 1 ;continue_dir_loop
+jlt 25, H, 4; <- dir_loop
+mov A, G
+int 0
+hlt
+jeq 54, D, 0 ;move; <- move_up
+jeq 56, D, 1; <- move_right
+jeq 58, D, 2; <- move_down
+jeq 60, D, 3; <- move_left
+sub F, 1 ;move_up
+jeq 62, 0, 0; <- ret_move
+add E, 1 ;move_right
+jeq 62, 0, 0; <- ret_move
+add F, 1 ;move_down
+jeq 62, 0, 0; <- ret_move
+sub E, 1 ;move_left
+jeq 62, 0, 0; <- ret_move
+mov D, 0 ;ret_move
+jeq 31, [207], 31; <- auto_ret_point_5; <- move_###
+jgt 67, E, F ;dist; <- calc_dist
+mov [202], 67; <- auto_ret_point_8; <- swap_###
+jeq 117, 0, 0; <- swap
+sub E, F ;auto_ret_point_8 ;calc_dist
+mov D, E
+jeq 86, [203], 86; <- auto_ret_point_9; <- dist_###
+jeq 91, [203], 91; <- dist_###; <- auto_ret_point_10
+jeq 127, [203], 127; <- dist_###; <- auto_ret_point_12
+jeq 132, [203], 132; <- dist_###; <- auto_ret_point_13
+add B, 2 ;opposite
+and B, 3
+mov D, B
+jeq 18, [204], 18; <- auto_ret_point_3; <- opposite_###
+jgt 79, E, F ;max; <- ret_max
+mov E, F
+mov D, E ;ret_max
+jeq 95, [201], 95; <- max_###; <- auto_ret_point_11
+mov [10], E ;run_away
+mov [11], F
+mov F, [2]
+mov [203], 86; <- auto_ret_point_9; <- dist_###
+jeq 64, 0, 0; <- dist
+mov [12], D ;auto_ret_point_9
+mov E, [11]
+mov F, [3]
+mov [203], 91; <- dist_###; <- auto_ret_point_10
+jeq 64, 0, 0; <- dist
+mov E, [12] ;auto_ret_point_10
+mov F, D
+mov [201], 95; <- max_###; <- auto_ret_point_11
+jeq 77, 0, 0; <- max
+jgt 98, D, 5 ;auto_ret_point_11; <- fight_yeah
+mov D, [109]
+jeq 99, 0, 0; <- ret_away
+mov D, 0 ;fight_yeah
+mov D, D ;ret_away
+jeq 23, [210], 23; <- run_away_###; <- auto_ret_point_4
+int 7 ;is_free
+jeq 104, A, 0; <- ret_is_free
+mov A, 1
+mov D, A ;ret_is_free
+jeq 35, [208], 35; <- is_free_###; <- auto_ret_point_6
+int 3 ;get_my_coords
+int 5
+mov [0], A
+mov [1], B
+mov D, 0
+jeq 4, [205], 4; <- auto_ret_point_1; <- get_my_coords_###
+int 1 ;get_lambda_coords
+mov [2], A
+mov [3], B
+mov D, 0
+jeq 2, [206], 2; <- get_lambda_coords_###; <- auto_ret_point_0
+xor E, F ;swap
+xor F, E
+xor E, F
+mov D, 0
+jeq 67, [202], 67; <- swap_###; <- auto_ret_point_8
+mov [10], E ;get_dist
+mov [11], F
+mov F, [2]
+mov [203], 127; <- dist_###; <- auto_ret_point_12
+jeq 64, 0, 0; <- dist
+mov [12], D ;auto_ret_point_12
+mov E, [11]
+mov F, [3]
+mov [203], 132; <- dist_###; <- auto_ret_point_13
+jeq 64, 0, 0; <- dist
+add [12], D ;auto_ret_point_13
+mov D, [12]
+jeq 9, [209], 9; <- auto_ret_point_2; <- get_dist_###
+jeq 38, [209], 38; <- auto_ret_point_7; <- get_dist_###

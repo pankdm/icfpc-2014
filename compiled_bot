@@ -1,0 +1,3003 @@
+Module(body=[
+    ImportFrom(module='python_stl', names=[
+        alias(name='*', asname=None),
+      ], level=0),
+    Import(names=[
+        alias(name='random', asname=None),
+      ]),
+    Import(names=[
+        alias(name='math', asname=None),
+      ]),
+    FunctionDef(name='get_location', args=arguments(args=[
+        Name(id='xy', ctx=Param()),
+        Name(id='direction', ctx=Param()),
+      ], vararg=None, kwarg=None, defaults=[]), body=[
+        Assign(targets=[
+            Name(id='moves', ctx=Store()),
+          ], value=Tuple(elts=[
+            Tuple(elts=[
+                Num(n=-1),
+                Num(n=0),
+              ], ctx=Load()),
+            Tuple(elts=[
+                Num(n=0),
+                Num(n=1),
+              ], ctx=Load()),
+            Tuple(elts=[
+                Num(n=1),
+                Num(n=0),
+              ], ctx=Load()),
+            Tuple(elts=[
+                Num(n=0),
+                Num(n=-1),
+              ], ctx=Load()),
+            Tuple(elts=[
+                Num(n=0),
+                Num(n=0),
+              ], ctx=Load()),
+          ], ctx=Load())),
+        Assign(targets=[
+            Name(id='move', ctx=Store()),
+          ], value=Call(func=Name(id='GET_VALUE', ctx=Load()), args=[
+            Name(id='moves', ctx=Load()),
+            Name(id='direction', ctx=Load()),
+          ], keywords=[], starargs=None, kwargs=None)),
+        Return(value=Tuple(elts=[
+            BinOp(left=Call(func=Name(id='FIRST', ctx=Load()), args=[
+                Name(id='xy', ctx=Load()),
+              ], keywords=[], starargs=None, kwargs=None), op=Add(), right=Call(func=Name(id='FIRST', ctx=Load()), args=[
+                Name(id='move', ctx=Load()),
+              ], keywords=[], starargs=None, kwargs=None)),
+            BinOp(left=Call(func=Name(id='SECOND', ctx=Load()), args=[
+                Name(id='xy', ctx=Load()),
+              ], keywords=[], starargs=None, kwargs=None), op=Add(), right=Call(func=Name(id='SECOND', ctx=Load()), args=[
+                Name(id='move', ctx=Load()),
+              ], keywords=[], starargs=None, kwargs=None)),
+          ], ctx=Load())),
+      ], decorator_list=[]),
+    FunctionDef(name='valid_location', args=arguments(args=[
+        Name(id='world', ctx=Param()),
+        Name(id='xy', ctx=Param()),
+      ], vararg=None, kwarg=None, defaults=[]), body=[
+        Return(value=UnaryOp(op=Not(), operand=Compare(left=Call(func=Name(id='GET_ARRAY', ctx=Load()), args=[
+            Name(id='world', ctx=Load()),
+            Name(id='xy', ctx=Load()),
+          ], keywords=[], starargs=None, kwargs=None), ops=[
+            Eq(),
+          ], comparators=[
+            Name(id='WALL', ctx=Load()),
+          ]))),
+      ], decorator_list=[]),
+    FunctionDef(name='next_direction', args=arguments(args=[
+        Name(id='direction', ctx=Param()),
+      ], vararg=None, kwarg=None, defaults=[]), body=[
+        Assign(targets=[
+            Name(id='direction', ctx=Store()),
+          ], value=BinOp(left=Name(id='direction', ctx=Load()), op=Add(), right=Num(n=1))),
+        If(test=Compare(left=Name(id='direction', ctx=Load()), ops=[
+            Eq(),
+          ], comparators=[
+            Num(n=4),
+          ]), body=[
+            Assign(targets=[
+                Name(id='direction', ctx=Store()),
+              ], value=Num(n=0)),
+          ], orelse=[]),
+        Return(value=Name(id='direction', ctx=Load())),
+      ], decorator_list=[]),
+    FunctionDef(name='main', args=arguments(args=[
+        Name(id='ai_state', ctx=Param()),
+        Name(id='world_state', ctx=Param()),
+      ], vararg=None, kwarg=None, defaults=[]), body=[
+        Assign(targets=[
+            Name(id='world', ctx=Store()),
+          ], value=Call(func=Name(id='GET_VALUE', ctx=Load()), args=[
+            Name(id='world_state', ctx=Load()),
+            Num(n=0),
+          ], keywords=[], starargs=None, kwargs=None)),
+        Assign(targets=[
+            Name(id='man', ctx=Store()),
+          ], value=Call(func=Name(id='GET_VALUE', ctx=Load()), args=[
+            Name(id='world_state', ctx=Load()),
+            Num(n=1),
+          ], keywords=[], starargs=None, kwargs=None)),
+        Assign(targets=[
+            Name(id='man_location', ctx=Store()),
+          ], value=Call(func=Name(id='GET_VALUE', ctx=Load()), args=[
+            Name(id='man', ctx=Load()),
+            Num(n=1),
+          ], keywords=[], starargs=None, kwargs=None)),
+        Assign(targets=[
+            Name(id='man_direction', ctx=Store()),
+          ], value=Call(func=Name(id='GET_VALUE', ctx=Load()), args=[
+            Name(id='man', ctx=Load()),
+            Num(n=2),
+          ], keywords=[], starargs=None, kwargs=None)),
+        Assign(targets=[
+            Name(id='ghosts', ctx=Store()),
+          ], value=Call(func=Name(id='GET_VALUE', ctx=Load()), args=[
+            Name(id='world_state', ctx=Load()),
+            Num(n=2),
+          ], keywords=[], starargs=None, kwargs=None)),
+        Assign(targets=[
+            Name(id='fruit', ctx=Store()),
+          ], value=Call(func=Name(id='GET_VALUE', ctx=Load()), args=[
+            Name(id='world_state', ctx=Load()),
+            Num(n=3),
+          ], keywords=[], starargs=None, kwargs=None)),
+        Assign(targets=[
+            Name(id='final_direction', ctx=Store()),
+          ], value=Name(id='man_direction', ctx=Load())),
+        Assign(targets=[
+            Name(id='valid_directions', ctx=Store()),
+          ], value=Num(n=0)),
+        Assign(targets=[
+            Name(id='iteration', ctx=Store()),
+          ], value=Num(n=0)),
+        While(test=Compare(left=Name(id='iteration', ctx=Load()), ops=[
+            Lt(),
+          ], comparators=[
+            Num(n=4),
+          ]), body=[
+            Assign(targets=[
+                Name(id='new_location', ctx=Store()),
+              ], value=Call(func=Name(id='get_location', ctx=Load()), args=[
+                Name(id='man_location', ctx=Load()),
+                Name(id='iteration', ctx=Load()),
+              ], keywords=[], starargs=None, kwargs=None)),
+            If(test=Call(func=Name(id='valid_location', ctx=Load()), args=[
+                Name(id='world', ctx=Load()),
+                Name(id='new_location', ctx=Load()),
+              ], keywords=[], starargs=None, kwargs=None), body=[
+                Assign(targets=[
+                    Name(id='valid_directions', ctx=Store()),
+                  ], value=BinOp(left=Name(id='valid_directions', ctx=Load()), op=Add(), right=Num(n=1))),
+              ], orelse=[]),
+            Assign(targets=[
+                Name(id='iteration', ctx=Store()),
+              ], value=BinOp(left=Name(id='iteration', ctx=Load()), op=Add(), right=Num(n=1))),
+          ], orelse=[]),
+        While(test=UnaryOp(op=Not(), operand=Call(func=Name(id='valid_location', ctx=Load()), args=[
+            Name(id='world', ctx=Load()),
+            Call(func=Name(id='get_location', ctx=Load()), args=[
+                Name(id='man_location', ctx=Load()),
+                Name(id='final_direction', ctx=Load()),
+              ], keywords=[], starargs=None, kwargs=None),
+          ], keywords=[], starargs=None, kwargs=None)), body=[
+            Assign(targets=[
+                Name(id='final_direction', ctx=Store()),
+              ], value=Call(func=Name(id='next_direction', ctx=Load()), args=[
+                Name(id='final_direction', ctx=Load()),
+              ], keywords=[], starargs=None, kwargs=None)),
+          ], orelse=[]),
+        Return(value=Name(id='final_direction', ctx=Load())),
+      ], decorator_list=[]),
+    Expr(value=Call(func=Name(id='main', ctx=Load()), args=[
+        Num(n=0),
+        Tuple(elts=[
+            Num(n=0),
+            Num(n=0),
+          ], ctx=Load()),
+      ], keywords=[], starargs=None, kwargs=None)),
+  ])
+
+
+
+Visiting <_ast.Module object at 0x100a6ea10>
+
+Visiting <_ast.Assign object at 0x100a7fa50>
+
+Visiting <_ast.Num object at 0x100a7fad0>
+Visited <_ast.Num object at 0x100a7fad0>
+<__main__.ByteCode instance at 0x1009d33f8>
+ByteCode output of size 1:
+0: 	 instructions.LoadConstant(0)
+Need to alocate WALL
+Visited <_ast.Assign object at 0x100a7fa50>
+<__main__.ByteCode instance at 0x1009d3440>
+ByteCode output of size 1:
+0: 	 instructions.LoadConstant(0)
+
+Visiting <_ast.Assign object at 0x100a7fb10>
+
+Visiting <_ast.Num object at 0x100a7fb90>
+Visited <_ast.Num object at 0x100a7fb90>
+<__main__.ByteCode instance at 0x1009d33f8>
+ByteCode output of size 1:
+0: 	 instructions.LoadConstant(1)
+Need to alocate EMPTY
+Visited <_ast.Assign object at 0x100a7fb10>
+<__main__.ByteCode instance at 0x1009d3560>
+ByteCode output of size 1:
+0: 	 instructions.LoadConstant(1)
+
+Visiting <_ast.Assign object at 0x100a7fbd0>
+
+Visiting <_ast.Num object at 0x100a7fc50>
+Visited <_ast.Num object at 0x100a7fc50>
+<__main__.ByteCode instance at 0x1009d33f8>
+ByteCode output of size 1:
+0: 	 instructions.LoadConstant(2)
+Need to alocate PILL
+Visited <_ast.Assign object at 0x100a7fbd0>
+<__main__.ByteCode instance at 0x1009d37a0>
+ByteCode output of size 1:
+0: 	 instructions.LoadConstant(2)
+
+Visiting <_ast.Assign object at 0x100a7fc90>
+
+Visiting <_ast.Num object at 0x100a7fd90>
+Visited <_ast.Num object at 0x100a7fd90>
+<__main__.ByteCode instance at 0x1009d33f8>
+ByteCode output of size 1:
+0: 	 instructions.LoadConstant(3)
+Need to alocate POWER_PILL
+Visited <_ast.Assign object at 0x100a7fc90>
+<__main__.ByteCode instance at 0x1009d37e8>
+ByteCode output of size 1:
+0: 	 instructions.LoadConstant(3)
+
+Visiting <_ast.Assign object at 0x100a7fdd0>
+
+Visiting <_ast.Num object at 0x100a7fe50>
+Visited <_ast.Num object at 0x100a7fe50>
+<__main__.ByteCode instance at 0x1009d33f8>
+ByteCode output of size 1:
+0: 	 instructions.LoadConstant(4)
+Need to alocate FRUIT
+Visited <_ast.Assign object at 0x100a7fdd0>
+<__main__.ByteCode instance at 0x1009d3710>
+ByteCode output of size 1:
+0: 	 instructions.LoadConstant(4)
+
+Visiting <_ast.Assign object at 0x100a7fe90>
+
+Visiting <_ast.Num object at 0x100a7ff10>
+Visited <_ast.Num object at 0x100a7ff10>
+<__main__.ByteCode instance at 0x1009d33f8>
+ByteCode output of size 1:
+0: 	 instructions.LoadConstant(5)
+Need to alocate MAN_START
+Visited <_ast.Assign object at 0x100a7fe90>
+<__main__.ByteCode instance at 0x1009d36c8>
+ByteCode output of size 1:
+0: 	 instructions.LoadConstant(5)
+
+Visiting <_ast.Assign object at 0x100a7ff50>
+
+Visiting <_ast.Num object at 0x100a7ffd0>
+Visited <_ast.Num object at 0x100a7ffd0>
+<__main__.ByteCode instance at 0x1009d33f8>
+ByteCode output of size 1:
+0: 	 instructions.LoadConstant(6)
+Need to alocate GHOST_START
+Visited <_ast.Assign object at 0x100a7ff50>
+<__main__.ByteCode instance at 0x1009d3878>
+ByteCode output of size 1:
+0: 	 instructions.LoadConstant(6)
+
+Visiting <_ast.Assign object at 0x100a7fcd0>
+
+Visiting <_ast.Num object at 0x100a88050>
+Visited <_ast.Num object at 0x100a88050>
+<__main__.ByteCode instance at 0x1009d33f8>
+ByteCode output of size 1:
+0: 	 instructions.LoadConstant(1000000)
+Need to alocate INF
+Visited <_ast.Assign object at 0x100a7fcd0>
+<__main__.ByteCode instance at 0x1009d3908>
+ByteCode output of size 1:
+0: 	 instructions.LoadConstant(1000000)
+Visited <_ast.Module object at 0x100a6ea10>
+<__main__.ByteCode instance at 0x1009d3488>
+ByteCode output of size 9:
+0: 	 instructions.LoadConstant(0)
+1: 	 instructions.LoadConstant(1)
+2: 	 instructions.LoadConstant(2)
+3: 	 instructions.LoadConstant(3)
+4: 	 instructions.LoadConstant(4)
+5: 	 instructions.LoadConstant(5)
+6: 	 instructions.LoadConstant(6)
+7: 	 instructions.LoadConstant(1000000)
+8: 	 instructions.ReturnFromFunction()
+
+Visiting <_ast.Module object at 0x100a7fa50>
+
+Visiting <_ast.FunctionDef object at 0x100a7fad0>
+
+Visiting <_ast.While object at 0x100a7fb50>
+
+Visiting <_ast.Compare object at 0x100a7fbd0>
+
+Visiting <_ast.Name object at 0x100a7fc50>
+Visited <_ast.Name object at 0x100a7fc50>
+<__main__.ByteCode instance at 0x100a8d440>
+ByteCode output of size 1:
+0: 	 instructions.LoadEnv(0, 1)
+
+Visiting <_ast.Num object at 0x100a7fc10>
+Visited <_ast.Num object at 0x100a7fc10>
+<__main__.ByteCode instance at 0x100a8d560>
+ByteCode output of size 1:
+0: 	 instructions.LoadConstant(0)
+Visited <_ast.Compare object at 0x100a7fbd0>
+<__main__.ByteCode instance at 0x100a8d680>
+ByteCode output of size 3:
+0: 	 instructions.LoadEnv(0, 1)
+1: 	 instructions.LoadConstant(0)
+2: 	 instructions.CompareGreater()
+
+Visiting <_ast.Assign object at 0x100a7fc90>
+
+Visiting <_ast.Call object at 0x100a7fd50>
+At function call SECOND
+
+Visiting <_ast.Name object at 0x100a7fe50>
+Visited <_ast.Name object at 0x100a7fe50>
+<__main__.ByteCode instance at 0x100a8d7a0>
+ByteCode output of size 1:
+0: 	 instructions.LoadEnv(0, 0)
+Found SECOND in built-in
+Visited <_ast.Call object at 0x100a7fd50>
+<__main__.ByteCode instance at 0x100a8d440>
+ByteCode output of size 2:
+0: 	 instructions.LoadEnv(0, 0)
+1: 	 instructions.ExtractSecond()
+Visited <_ast.Assign object at 0x100a7fc90>
+<__main__.ByteCode instance at 0x100a8d7a0>
+ByteCode output of size 3:
+0: 	 instructions.LoadEnv(0, 0)
+1: 	 instructions.ExtractSecond()
+2: 	 instructions.StoreToEnv(0, 0)
+
+Visiting <_ast.Assign object at 0x100a7fe10>
+
+Visiting <_ast.BinOp object at 0x100a7ff10>
+At BinOp <_ast.Sub object at 0x100a6a3d0>
+
+Visiting <_ast.Name object at 0x100a7fed0>
+Visited <_ast.Name object at 0x100a7fed0>
+<__main__.ByteCode instance at 0x100a8d950>
+ByteCode output of size 1:
+0: 	 instructions.LoadEnv(0, 1)
+
+Visiting <_ast.Num object at 0x100a7ff50>
+Visited <_ast.Num object at 0x100a7ff50>
+<__main__.ByteCode instance at 0x100a8da70>
+ByteCode output of size 1:
+0: 	 instructions.LoadConstant(1)
+Visited <_ast.BinOp object at 0x100a7ff10>
+<__main__.ByteCode instance at 0x100a8d440>
+ByteCode output of size 3:
+0: 	 instructions.LoadEnv(0, 1)
+1: 	 instructions.LoadConstant(1)
+2: 	 instructions.IntSubtraction()
+Visited <_ast.Assign object at 0x100a7fe10>
+<__main__.ByteCode instance at 0x100a8da70>
+ByteCode output of size 4:
+0: 	 instructions.LoadEnv(0, 1)
+1: 	 instructions.LoadConstant(1)
+2: 	 instructions.IntSubtraction()
+3: 	 instructions.StoreToEnv(0, 1)
+Visited <_ast.While object at 0x100a7fb50>
+<__main__.ByteCode instance at 0x100a8da70>
+ByteCode output of size 16:
+0: 	 __while_start_0__: 
+1: 	 instructions.LoadEnv(0, 1)
+2: 	 instructions.LoadConstant(0)
+3: 	 instructions.CompareGreater()
+4: 	 __main__.TailCallBranchLabel (__while_body_1__, __while_finish_2__)
+5: 	 __while_body_1__: 
+6: 	 instructions.LoadEnv(0, 0)
+7: 	 instructions.ExtractSecond()
+8: 	 instructions.StoreToEnv(0, 0)
+9: 	 instructions.LoadEnv(0, 1)
+10: 	 instructions.LoadConstant(1)
+11: 	 instructions.IntSubtraction()
+12: 	 instructions.StoreToEnv(0, 1)
+13: 	 instructions.LoadConstant(0)
+14: 	 __main__.JumpLabel (__while_start_0__)
+15: 	 __while_finish_2__: 
+
+Visiting <_ast.Expr object at 0x100a7ffd0>
+
+Visiting <_ast.Call object at 0x100a7ff90>
+At function call FIRST
+
+Visiting <_ast.Name object at 0x100a7fd10>
+Visited <_ast.Name object at 0x100a7fd10>
+<__main__.ByteCode instance at 0x100a8d680>
+ByteCode output of size 1:
+0: 	 instructions.LoadEnv(0, 0)
+Found FIRST in built-in
+Visited <_ast.Call object at 0x100a7ff90>
+<__main__.ByteCode instance at 0x100a8d560>
+ByteCode output of size 2:
+0: 	 instructions.LoadEnv(0, 0)
+1: 	 instructions.ExtractFirst()
+Visited <_ast.Expr object at 0x100a7ffd0>
+<__main__.ByteCode instance at 0x100a8d560>
+ByteCode output of size 2:
+0: 	 instructions.LoadEnv(0, 0)
+1: 	 instructions.ExtractFirst()
+
+Function body:
+ByteCode output of size 19:
+0: 	 __while_start_0__: 
+1: 	 instructions.LoadEnv(0, 1)
+2: 	 instructions.LoadConstant(0)
+3: 	 instructions.CompareGreater()
+4: 	 __main__.TailCallBranchLabel (__while_body_1__, __while_finish_2__)
+5: 	 __while_body_1__: 
+6: 	 instructions.LoadEnv(0, 0)
+7: 	 instructions.ExtractSecond()
+8: 	 instructions.StoreToEnv(0, 0)
+9: 	 instructions.LoadEnv(0, 1)
+10: 	 instructions.LoadConstant(1)
+11: 	 instructions.IntSubtraction()
+12: 	 instructions.StoreToEnv(0, 1)
+13: 	 instructions.LoadConstant(0)
+14: 	 __main__.JumpLabel (__while_start_0__)
+15: 	 __while_finish_2__: 
+16: 	 instructions.LoadEnv(0, 0)
+17: 	 instructions.ExtractFirst()
+18: 	 instructions.ReturnFromFunction()
+Visited <_ast.FunctionDef object at 0x100a7fad0>
+<__main__.ByteCode instance at 0x100a8d680>
+ByteCode output of size 0:
+
+Visiting <_ast.FunctionDef object at 0x100a6ea10>
+
+Visiting <_ast.Return object at 0x100a880d0>
+
+Visiting <_ast.Call object at 0x100a88350>
+At function call GET_VALUE
+
+Visiting <_ast.Call object at 0x100a88290>
+At function call GET_VALUE
+
+Visiting <_ast.Name object at 0x100a88310>
+Visited <_ast.Name object at 0x100a88310>
+<__main__.ByteCode instance at 0x100a8def0>
+ByteCode output of size 1:
+0: 	 instructions.LoadEnv(0, 0)
+
+Visiting <_ast.Call object at 0x100a88490>
+At function call FIRST
+
+Visiting <_ast.Name object at 0x100a88510>
+Visited <_ast.Name object at 0x100a88510>
+<__main__.ByteCode instance at 0x100a8f0e0>
+ByteCode output of size 1:
+0: 	 instructions.LoadEnv(0, 1)
+Found FIRST in built-in
+Visited <_ast.Call object at 0x100a88490>
+<__main__.ByteCode instance at 0x100a8f050>
+ByteCode output of size 2:
+0: 	 instructions.LoadEnv(0, 1)
+1: 	 instructions.ExtractFirst()
+Visited <_ast.Call object at 0x100a88290>
+<__main__.ByteCode instance at 0x100a8de60>
+ByteCode output of size 4:
+0: 	 instructions.LoadEnv(0, 0)
+1: 	 instructions.LoadEnv(0, 1)
+2: 	 instructions.ExtractFirst()
+3: 	 ApplyFunction(2) GET_VALUE (locals = 0)
+
+Visiting <_ast.Call object at 0x100a88550>
+At function call SECOND
+
+Visiting <_ast.Name object at 0x100a885d0>
+Visited <_ast.Name object at 0x100a885d0>
+<__main__.ByteCode instance at 0x100a8f0e0>
+ByteCode output of size 1:
+0: 	 instructions.LoadEnv(0, 1)
+Found SECOND in built-in
+Visited <_ast.Call object at 0x100a88550>
+<__main__.ByteCode instance at 0x100a8f050>
+ByteCode output of size 2:
+0: 	 instructions.LoadEnv(0, 1)
+1: 	 instructions.ExtractSecond()
+Visited <_ast.Call object at 0x100a88350>
+<__main__.ByteCode instance at 0x100a8ddd0>
+ByteCode output of size 7:
+0: 	 instructions.LoadEnv(0, 0)
+1: 	 instructions.LoadEnv(0, 1)
+2: 	 instructions.ExtractFirst()
+3: 	 ApplyFunction(2) GET_VALUE (locals = 0)
+4: 	 instructions.LoadEnv(0, 1)
+5: 	 instructions.ExtractSecond()
+6: 	 ApplyFunction(2) GET_VALUE (locals = 0)
+Visited <_ast.Return object at 0x100a880d0>
+<__main__.ByteCode instance at 0x100a8ddd0>
+ByteCode output of size 7:
+0: 	 instructions.LoadEnv(0, 0)
+1: 	 instructions.LoadEnv(0, 1)
+2: 	 instructions.ExtractFirst()
+3: 	 ApplyFunction(2) GET_VALUE (locals = 0)
+4: 	 instructions.LoadEnv(0, 1)
+5: 	 instructions.ExtractSecond()
+6: 	 ApplyFunction(2) GET_VALUE (locals = 0)
+
+Function body:
+ByteCode output of size 8:
+0: 	 instructions.LoadEnv(0, 0)
+1: 	 instructions.LoadEnv(0, 1)
+2: 	 instructions.ExtractFirst()
+3: 	 ApplyFunction(2) GET_VALUE (locals = 0)
+4: 	 instructions.LoadEnv(0, 1)
+5: 	 instructions.ExtractSecond()
+6: 	 ApplyFunction(2) GET_VALUE (locals = 0)
+7: 	 instructions.ReturnFromFunction()
+Visited <_ast.FunctionDef object at 0x100a6ea10>
+<__main__.ByteCode instance at 0x100a8f0e0>
+ByteCode output of size 0:
+
+Visiting <_ast.FunctionDef object at 0x100a88610>
+
+Visiting <_ast.Assign object at 0x100a88750>
+
+Visiting <_ast.Tuple object at 0x100a88910>
+
+Visiting <_ast.Tuple object at 0x100a887d0>
+
+Visiting <_ast.Num object at 0x100a88810>
+Visited <_ast.Num object at 0x100a88810>
+<__main__.ByteCode instance at 0x100a8f2d8>
+ByteCode output of size 1:
+0: 	 instructions.LoadConstant(-1)
+
+Visiting <_ast.Num object at 0x100a88850>
+Visited <_ast.Num object at 0x100a88850>
+<__main__.ByteCode instance at 0x100a8f3f8>
+ByteCode output of size 1:
+0: 	 instructions.LoadConstant(0)
+Visited <_ast.Tuple object at 0x100a887d0>
+<__main__.ByteCode instance at 0x100a8f290>
+ByteCode output of size 5:
+0: 	 instructions.LoadConstant(-1)
+1: 	 instructions.LoadConstant(0)
+2: 	 instructions.LoadConstant(0)
+3: 	 instructions.AllocateCons()
+4: 	 instructions.AllocateCons()
+
+Visiting <_ast.Tuple object at 0x100a88990>
+
+Visiting <_ast.Num object at 0x100a88950>
+Visited <_ast.Num object at 0x100a88950>
+<__main__.ByteCode instance at 0x100a8f638>
+ByteCode output of size 1:
+0: 	 instructions.LoadConstant(0)
+
+Visiting <_ast.Num object at 0x100a888d0>
+Visited <_ast.Num object at 0x100a888d0>
+<__main__.ByteCode instance at 0x100a8f758>
+ByteCode output of size 1:
+0: 	 instructions.LoadConstant(1)
+Visited <_ast.Tuple object at 0x100a88990>
+<__main__.ByteCode instance at 0x100a8f3f8>
+ByteCode output of size 5:
+0: 	 instructions.LoadConstant(0)
+1: 	 instructions.LoadConstant(1)
+2: 	 instructions.LoadConstant(0)
+3: 	 instructions.AllocateCons()
+4: 	 instructions.AllocateCons()
+
+Visiting <_ast.Tuple object at 0x100a88890>
+
+Visiting <_ast.Num object at 0x100a88a10>
+Visited <_ast.Num object at 0x100a88a10>
+<__main__.ByteCode instance at 0x100a8f758>
+ByteCode output of size 1:
+0: 	 instructions.LoadConstant(1)
+
+Visiting <_ast.Num object at 0x100a889d0>
+Visited <_ast.Num object at 0x100a889d0>
+<__main__.ByteCode instance at 0x100a8fa28>
+ByteCode output of size 1:
+0: 	 instructions.LoadConstant(0)
+Visited <_ast.Tuple object at 0x100a88890>
+<__main__.ByteCode instance at 0x100a8f290>
+ByteCode output of size 5:
+0: 	 instructions.LoadConstant(1)
+1: 	 instructions.LoadConstant(0)
+2: 	 instructions.LoadConstant(0)
+3: 	 instructions.AllocateCons()
+4: 	 instructions.AllocateCons()
+
+Visiting <_ast.Tuple object at 0x100a88a50>
+
+Visiting <_ast.Num object at 0x100a88a90>
+Visited <_ast.Num object at 0x100a88a90>
+<__main__.ByteCode instance at 0x100a8fa28>
+ByteCode output of size 1:
+0: 	 instructions.LoadConstant(0)
+
+Visiting <_ast.Num object at 0x100a88ad0>
+Visited <_ast.Num object at 0x100a88ad0>
+<__main__.ByteCode instance at 0x100a8fcf8>
+ByteCode output of size 1:
+0: 	 instructions.LoadConstant(-1)
+Visited <_ast.Tuple object at 0x100a88a50>
+<__main__.ByteCode instance at 0x100a8f3f8>
+ByteCode output of size 5:
+0: 	 instructions.LoadConstant(0)
+1: 	 instructions.LoadConstant(-1)
+2: 	 instructions.LoadConstant(0)
+3: 	 instructions.AllocateCons()
+4: 	 instructions.AllocateCons()
+
+Visiting <_ast.Tuple object at 0x100a88b50>
+
+Visiting <_ast.Num object at 0x100a88b90>
+Visited <_ast.Num object at 0x100a88b90>
+<__main__.ByteCode instance at 0x100a8fcf8>
+ByteCode output of size 1:
+0: 	 instructions.LoadConstant(0)
+
+Visiting <_ast.Num object at 0x100a88bd0>
+Visited <_ast.Num object at 0x100a88bd0>
+<__main__.ByteCode instance at 0x100a8ffc8>
+ByteCode output of size 1:
+0: 	 instructions.LoadConstant(0)
+Visited <_ast.Tuple object at 0x100a88b50>
+<__main__.ByteCode instance at 0x100a8f290>
+ByteCode output of size 5:
+0: 	 instructions.LoadConstant(0)
+1: 	 instructions.LoadConstant(0)
+2: 	 instructions.LoadConstant(0)
+3: 	 instructions.AllocateCons()
+4: 	 instructions.AllocateCons()
+Visited <_ast.Tuple object at 0x100a88910>
+<__main__.ByteCode instance at 0x100a8f248>
+ByteCode output of size 31:
+0: 	 instructions.LoadConstant(-1)
+1: 	 instructions.LoadConstant(0)
+2: 	 instructions.LoadConstant(0)
+3: 	 instructions.AllocateCons()
+4: 	 instructions.AllocateCons()
+5: 	 instructions.LoadConstant(0)
+6: 	 instructions.LoadConstant(1)
+7: 	 instructions.LoadConstant(0)
+8: 	 instructions.AllocateCons()
+9: 	 instructions.AllocateCons()
+10: 	 instructions.LoadConstant(1)
+11: 	 instructions.LoadConstant(0)
+12: 	 instructions.LoadConstant(0)
+13: 	 instructions.AllocateCons()
+14: 	 instructions.AllocateCons()
+15: 	 instructions.LoadConstant(0)
+16: 	 instructions.LoadConstant(-1)
+17: 	 instructions.LoadConstant(0)
+18: 	 instructions.AllocateCons()
+19: 	 instructions.AllocateCons()
+20: 	 instructions.LoadConstant(0)
+21: 	 instructions.LoadConstant(0)
+22: 	 instructions.LoadConstant(0)
+23: 	 instructions.AllocateCons()
+24: 	 instructions.AllocateCons()
+25: 	 instructions.LoadConstant(0)
+26: 	 instructions.AllocateCons()
+27: 	 instructions.AllocateCons()
+28: 	 instructions.AllocateCons()
+29: 	 instructions.AllocateCons()
+30: 	 instructions.AllocateCons()
+Need to alocate moves
+Visited <_ast.Assign object at 0x100a88750>
+<__main__.ByteCode instance at 0x100a8f290>
+ByteCode output of size 32:
+0: 	 instructions.LoadConstant(-1)
+1: 	 instructions.LoadConstant(0)
+2: 	 instructions.LoadConstant(0)
+3: 	 instructions.AllocateCons()
+4: 	 instructions.AllocateCons()
+5: 	 instructions.LoadConstant(0)
+6: 	 instructions.LoadConstant(1)
+7: 	 instructions.LoadConstant(0)
+8: 	 instructions.AllocateCons()
+9: 	 instructions.AllocateCons()
+10: 	 instructions.LoadConstant(1)
+11: 	 instructions.LoadConstant(0)
+12: 	 instructions.LoadConstant(0)
+13: 	 instructions.AllocateCons()
+14: 	 instructions.AllocateCons()
+15: 	 instructions.LoadConstant(0)
+16: 	 instructions.LoadConstant(-1)
+17: 	 instructions.LoadConstant(0)
+18: 	 instructions.AllocateCons()
+19: 	 instructions.AllocateCons()
+20: 	 instructions.LoadConstant(0)
+21: 	 instructions.LoadConstant(0)
+22: 	 instructions.LoadConstant(0)
+23: 	 instructions.AllocateCons()
+24: 	 instructions.AllocateCons()
+25: 	 instructions.LoadConstant(0)
+26: 	 instructions.AllocateCons()
+27: 	 instructions.AllocateCons()
+28: 	 instructions.AllocateCons()
+29: 	 instructions.AllocateCons()
+30: 	 instructions.AllocateCons()
+31: 	 instructions.StoreToEnv(0, 2)
+
+Visiting <_ast.Assign object at 0x100a88b10>
+
+Visiting <_ast.Call object at 0x100a88d10>
+At function call GET_VALUE
+
+Visiting <_ast.Name object at 0x100a88d50>
+Visited <_ast.Name object at 0x100a88d50>
+<__main__.ByteCode instance at 0x100a90518>
+ByteCode output of size 1:
+0: 	 instructions.LoadEnv(0, 2)
+
+Visiting <_ast.Name object at 0x100a88c50>
+Visited <_ast.Name object at 0x100a88c50>
+<__main__.ByteCode instance at 0x100a90638>
+ByteCode output of size 1:
+0: 	 instructions.LoadEnv(0, 1)
+Visited <_ast.Call object at 0x100a88d10>
+<__main__.ByteCode instance at 0x100a8f248>
+ByteCode output of size 3:
+0: 	 instructions.LoadEnv(0, 2)
+1: 	 instructions.LoadEnv(0, 1)
+2: 	 ApplyFunction(2) GET_VALUE (locals = 0)
+Need to alocate move
+Visited <_ast.Assign object at 0x100a88b10>
+<__main__.ByteCode instance at 0x100a90638>
+ByteCode output of size 4:
+0: 	 instructions.LoadEnv(0, 2)
+1: 	 instructions.LoadEnv(0, 1)
+2: 	 ApplyFunction(2) GET_VALUE (locals = 0)
+3: 	 instructions.StoreToEnv(0, 3)
+
+Visiting <_ast.Return object at 0x100a88c90>
+
+Visiting <_ast.Tuple object at 0x100a88cd0>
+
+Visiting <_ast.BinOp object at 0x100a88dd0>
+At BinOp <_ast.Add object at 0x100a6a350>
+
+Visiting <_ast.Call object at 0x100a88e10>
+At function call FIRST
+
+Visiting <_ast.Name object at 0x100a88e90>
+Visited <_ast.Name object at 0x100a88e90>
+<__main__.ByteCode instance at 0x100a90830>
+ByteCode output of size 1:
+0: 	 instructions.LoadEnv(0, 0)
+Found FIRST in built-in
+Visited <_ast.Call object at 0x100a88e10>
+<__main__.ByteCode instance at 0x100a907a0>
+ByteCode output of size 2:
+0: 	 instructions.LoadEnv(0, 0)
+1: 	 instructions.ExtractFirst()
+
+Visiting <_ast.Call object at 0x100a88ed0>
+At function call FIRST
+
+Visiting <_ast.Name object at 0x100a88f50>
+Visited <_ast.Name object at 0x100a88f50>
+<__main__.ByteCode instance at 0x100a90950>
+ByteCode output of size 1:
+0: 	 instructions.LoadEnv(0, 3)
+Found FIRST in built-in
+Visited <_ast.Call object at 0x100a88ed0>
+<__main__.ByteCode instance at 0x100a90830>
+ByteCode output of size 2:
+0: 	 instructions.LoadEnv(0, 3)
+1: 	 instructions.ExtractFirst()
+Visited <_ast.BinOp object at 0x100a88dd0>
+<__main__.ByteCode instance at 0x100a8f248>
+ByteCode output of size 5:
+0: 	 instructions.LoadEnv(0, 0)
+1: 	 instructions.ExtractFirst()
+2: 	 instructions.LoadEnv(0, 3)
+3: 	 instructions.ExtractFirst()
+4: 	 instructions.IntAddition()
+
+Visiting <_ast.BinOp object at 0x100a88fd0>
+At BinOp <_ast.Add object at 0x100a6a350>
+
+Visiting <_ast.Call object at 0x100a88f90>
+At function call SECOND
+
+Visiting <_ast.Name object at 0x100a890d0>
+Visited <_ast.Name object at 0x100a890d0>
+<__main__.ByteCode instance at 0x100a90a70>
+ByteCode output of size 1:
+0: 	 instructions.LoadEnv(0, 0)
+Found SECOND in built-in
+Visited <_ast.Call object at 0x100a88f90>
+<__main__.ByteCode instance at 0x100a907a0>
+ByteCode output of size 2:
+0: 	 instructions.LoadEnv(0, 0)
+1: 	 instructions.ExtractSecond()
+
+Visiting <_ast.Call object at 0x100a89110>
+At function call SECOND
+
+Visiting <_ast.Name object at 0x100a89150>
+Visited <_ast.Name object at 0x100a89150>
+<__main__.ByteCode instance at 0x100a90b90>
+ByteCode output of size 1:
+0: 	 instructions.LoadEnv(0, 3)
+Found SECOND in built-in
+Visited <_ast.Call object at 0x100a89110>
+<__main__.ByteCode instance at 0x100a90a70>
+ByteCode output of size 2:
+0: 	 instructions.LoadEnv(0, 3)
+1: 	 instructions.ExtractSecond()
+Visited <_ast.BinOp object at 0x100a88fd0>
+<__main__.ByteCode instance at 0x100a90830>
+ByteCode output of size 5:
+0: 	 instructions.LoadEnv(0, 0)
+1: 	 instructions.ExtractSecond()
+2: 	 instructions.LoadEnv(0, 3)
+3: 	 instructions.ExtractSecond()
+4: 	 instructions.IntAddition()
+Visited <_ast.Tuple object at 0x100a88cd0>
+<__main__.ByteCode instance at 0x100a8f290>
+ByteCode output of size 13:
+0: 	 instructions.LoadEnv(0, 0)
+1: 	 instructions.ExtractFirst()
+2: 	 instructions.LoadEnv(0, 3)
+3: 	 instructions.ExtractFirst()
+4: 	 instructions.IntAddition()
+5: 	 instructions.LoadEnv(0, 0)
+6: 	 instructions.ExtractSecond()
+7: 	 instructions.LoadEnv(0, 3)
+8: 	 instructions.ExtractSecond()
+9: 	 instructions.IntAddition()
+10: 	 instructions.LoadConstant(0)
+11: 	 instructions.AllocateCons()
+12: 	 instructions.AllocateCons()
+Visited <_ast.Return object at 0x100a88c90>
+<__main__.ByteCode instance at 0x100a8f290>
+ByteCode output of size 13:
+0: 	 instructions.LoadEnv(0, 0)
+1: 	 instructions.ExtractFirst()
+2: 	 instructions.LoadEnv(0, 3)
+3: 	 instructions.ExtractFirst()
+4: 	 instructions.IntAddition()
+5: 	 instructions.LoadEnv(0, 0)
+6: 	 instructions.ExtractSecond()
+7: 	 instructions.LoadEnv(0, 3)
+8: 	 instructions.ExtractSecond()
+9: 	 instructions.IntAddition()
+10: 	 instructions.LoadConstant(0)
+11: 	 instructions.AllocateCons()
+12: 	 instructions.AllocateCons()
+
+Function body:
+ByteCode output of size 50:
+0: 	 instructions.LoadConstant(-1)
+1: 	 instructions.LoadConstant(0)
+2: 	 instructions.LoadConstant(0)
+3: 	 instructions.AllocateCons()
+4: 	 instructions.AllocateCons()
+5: 	 instructions.LoadConstant(0)
+6: 	 instructions.LoadConstant(1)
+7: 	 instructions.LoadConstant(0)
+8: 	 instructions.AllocateCons()
+9: 	 instructions.AllocateCons()
+10: 	 instructions.LoadConstant(1)
+11: 	 instructions.LoadConstant(0)
+12: 	 instructions.LoadConstant(0)
+13: 	 instructions.AllocateCons()
+14: 	 instructions.AllocateCons()
+15: 	 instructions.LoadConstant(0)
+16: 	 instructions.LoadConstant(-1)
+17: 	 instructions.LoadConstant(0)
+18: 	 instructions.AllocateCons()
+19: 	 instructions.AllocateCons()
+20: 	 instructions.LoadConstant(0)
+21: 	 instructions.LoadConstant(0)
+22: 	 instructions.LoadConstant(0)
+23: 	 instructions.AllocateCons()
+24: 	 instructions.AllocateCons()
+25: 	 instructions.LoadConstant(0)
+26: 	 instructions.AllocateCons()
+27: 	 instructions.AllocateCons()
+28: 	 instructions.AllocateCons()
+29: 	 instructions.AllocateCons()
+30: 	 instructions.AllocateCons()
+31: 	 instructions.StoreToEnv(0, 2)
+32: 	 instructions.LoadEnv(0, 2)
+33: 	 instructions.LoadEnv(0, 1)
+34: 	 ApplyFunction(2) GET_VALUE (locals = 0)
+35: 	 instructions.StoreToEnv(0, 3)
+36: 	 instructions.LoadEnv(0, 0)
+37: 	 instructions.ExtractFirst()
+38: 	 instructions.LoadEnv(0, 3)
+39: 	 instructions.ExtractFirst()
+40: 	 instructions.IntAddition()
+41: 	 instructions.LoadEnv(0, 0)
+42: 	 instructions.ExtractSecond()
+43: 	 instructions.LoadEnv(0, 3)
+44: 	 instructions.ExtractSecond()
+45: 	 instructions.IntAddition()
+46: 	 instructions.LoadConstant(0)
+47: 	 instructions.AllocateCons()
+48: 	 instructions.AllocateCons()
+49: 	 instructions.ReturnFromFunction()
+Visited <_ast.FunctionDef object at 0x100a88610>
+<__main__.ByteCode instance at 0x100a90830>
+ByteCode output of size 0:
+
+Visiting <_ast.ImportFrom object at 0x100a89390>
+Visited <_ast.ImportFrom object at 0x100a89390>
+<__main__.EmptyByteCode instance at 0x100a8f0e0>
+ByteCode output of size 0:
+
+Visiting <_ast.Import object at 0x100a89450>
+Visited <_ast.Import object at 0x100a89450>
+<__main__.EmptyByteCode instance at 0x100a90830>
+ByteCode output of size 0:
+
+Visiting <_ast.Import object at 0x100a893d0>
+Visited <_ast.Import object at 0x100a893d0>
+<__main__.EmptyByteCode instance at 0x100a8f0e0>
+ByteCode output of size 0:
+
+Visiting <_ast.FunctionDef object at 0x100a891d0>
+
+Visiting <_ast.Assign object at 0x100a892d0>
+
+Visiting <_ast.Tuple object at 0x100a89350>
+
+Visiting <_ast.Tuple object at 0x100a894d0>
+
+Visiting <_ast.Num object at 0x100a89510>
+Visited <_ast.Num object at 0x100a89510>
+<__main__.ByteCode instance at 0x100a90d88>
+ByteCode output of size 1:
+0: 	 instructions.LoadConstant(-1)
+
+Visiting <_ast.Num object at 0x100a89550>
+Visited <_ast.Num object at 0x100a89550>
+<__main__.ByteCode instance at 0x100a90ea8>
+ByteCode output of size 1:
+0: 	 instructions.LoadConstant(0)
+Visited <_ast.Tuple object at 0x100a894d0>
+<__main__.ByteCode instance at 0x100a90cf8>
+ByteCode output of size 5:
+0: 	 instructions.LoadConstant(-1)
+1: 	 instructions.LoadConstant(0)
+2: 	 instructions.LoadConstant(0)
+3: 	 instructions.AllocateCons()
+4: 	 instructions.AllocateCons()
+
+Visiting <_ast.Tuple object at 0x100a89590>
+
+Visiting <_ast.Num object at 0x100a895d0>
+Visited <_ast.Num object at 0x100a895d0>
+<__main__.ByteCode instance at 0x100a95128>
+ByteCode output of size 1:
+0: 	 instructions.LoadConstant(0)
+
+Visiting <_ast.Num object at 0x100a89610>
+Visited <_ast.Num object at 0x100a89610>
+<__main__.ByteCode instance at 0x100a95248>
+ByteCode output of size 1:
+0: 	 instructions.LoadConstant(1)
+Visited <_ast.Tuple object at 0x100a89590>
+<__main__.ByteCode instance at 0x100a90ea8>
+ByteCode output of size 5:
+0: 	 instructions.LoadConstant(0)
+1: 	 instructions.LoadConstant(1)
+2: 	 instructions.LoadConstant(0)
+3: 	 instructions.AllocateCons()
+4: 	 instructions.AllocateCons()
+
+Visiting <_ast.Tuple object at 0x100a89650>
+
+Visiting <_ast.Num object at 0x100a89690>
+Visited <_ast.Num object at 0x100a89690>
+<__main__.ByteCode instance at 0x100a95248>
+ByteCode output of size 1:
+0: 	 instructions.LoadConstant(1)
+
+Visiting <_ast.Num object at 0x100a896d0>
+Visited <_ast.Num object at 0x100a896d0>
+<__main__.ByteCode instance at 0x100a95518>
+ByteCode output of size 1:
+0: 	 instructions.LoadConstant(0)
+Visited <_ast.Tuple object at 0x100a89650>
+<__main__.ByteCode instance at 0x100a90cf8>
+ByteCode output of size 5:
+0: 	 instructions.LoadConstant(1)
+1: 	 instructions.LoadConstant(0)
+2: 	 instructions.LoadConstant(0)
+3: 	 instructions.AllocateCons()
+4: 	 instructions.AllocateCons()
+
+Visiting <_ast.Tuple object at 0x100a89790>
+
+Visiting <_ast.Num object at 0x100a897d0>
+Visited <_ast.Num object at 0x100a897d0>
+<__main__.ByteCode instance at 0x100a95518>
+ByteCode output of size 1:
+0: 	 instructions.LoadConstant(0)
+
+Visiting <_ast.Num object at 0x100a89810>
+Visited <_ast.Num object at 0x100a89810>
+<__main__.ByteCode instance at 0x100a957e8>
+ByteCode output of size 1:
+0: 	 instructions.LoadConstant(-1)
+Visited <_ast.Tuple object at 0x100a89790>
+<__main__.ByteCode instance at 0x100a90ea8>
+ByteCode output of size 5:
+0: 	 instructions.LoadConstant(0)
+1: 	 instructions.LoadConstant(-1)
+2: 	 instructions.LoadConstant(0)
+3: 	 instructions.AllocateCons()
+4: 	 instructions.AllocateCons()
+
+Visiting <_ast.Tuple object at 0x100a89990>
+
+Visiting <_ast.Num object at 0x100a89850>
+Visited <_ast.Num object at 0x100a89850>
+<__main__.ByteCode instance at 0x100a957e8>
+ByteCode output of size 1:
+0: 	 instructions.LoadConstant(0)
+
+Visiting <_ast.Num object at 0x100a89890>
+Visited <_ast.Num object at 0x100a89890>
+<__main__.ByteCode instance at 0x100a95ab8>
+ByteCode output of size 1:
+0: 	 instructions.LoadConstant(0)
+Visited <_ast.Tuple object at 0x100a89990>
+<__main__.ByteCode instance at 0x100a90cf8>
+ByteCode output of size 5:
+0: 	 instructions.LoadConstant(0)
+1: 	 instructions.LoadConstant(0)
+2: 	 instructions.LoadConstant(0)
+3: 	 instructions.AllocateCons()
+4: 	 instructions.AllocateCons()
+Visited <_ast.Tuple object at 0x100a89350>
+<__main__.ByteCode instance at 0x100a90cb0>
+ByteCode output of size 31:
+0: 	 instructions.LoadConstant(-1)
+1: 	 instructions.LoadConstant(0)
+2: 	 instructions.LoadConstant(0)
+3: 	 instructions.AllocateCons()
+4: 	 instructions.AllocateCons()
+5: 	 instructions.LoadConstant(0)
+6: 	 instructions.LoadConstant(1)
+7: 	 instructions.LoadConstant(0)
+8: 	 instructions.AllocateCons()
+9: 	 instructions.AllocateCons()
+10: 	 instructions.LoadConstant(1)
+11: 	 instructions.LoadConstant(0)
+12: 	 instructions.LoadConstant(0)
+13: 	 instructions.AllocateCons()
+14: 	 instructions.AllocateCons()
+15: 	 instructions.LoadConstant(0)
+16: 	 instructions.LoadConstant(-1)
+17: 	 instructions.LoadConstant(0)
+18: 	 instructions.AllocateCons()
+19: 	 instructions.AllocateCons()
+20: 	 instructions.LoadConstant(0)
+21: 	 instructions.LoadConstant(0)
+22: 	 instructions.LoadConstant(0)
+23: 	 instructions.AllocateCons()
+24: 	 instructions.AllocateCons()
+25: 	 instructions.LoadConstant(0)
+26: 	 instructions.AllocateCons()
+27: 	 instructions.AllocateCons()
+28: 	 instructions.AllocateCons()
+29: 	 instructions.AllocateCons()
+30: 	 instructions.AllocateCons()
+Need to alocate moves
+Visited <_ast.Assign object at 0x100a892d0>
+<__main__.ByteCode instance at 0x100a90cf8>
+ByteCode output of size 32:
+0: 	 instructions.LoadConstant(-1)
+1: 	 instructions.LoadConstant(0)
+2: 	 instructions.LoadConstant(0)
+3: 	 instructions.AllocateCons()
+4: 	 instructions.AllocateCons()
+5: 	 instructions.LoadConstant(0)
+6: 	 instructions.LoadConstant(1)
+7: 	 instructions.LoadConstant(0)
+8: 	 instructions.AllocateCons()
+9: 	 instructions.AllocateCons()
+10: 	 instructions.LoadConstant(1)
+11: 	 instructions.LoadConstant(0)
+12: 	 instructions.LoadConstant(0)
+13: 	 instructions.AllocateCons()
+14: 	 instructions.AllocateCons()
+15: 	 instructions.LoadConstant(0)
+16: 	 instructions.LoadConstant(-1)
+17: 	 instructions.LoadConstant(0)
+18: 	 instructions.AllocateCons()
+19: 	 instructions.AllocateCons()
+20: 	 instructions.LoadConstant(0)
+21: 	 instructions.LoadConstant(0)
+22: 	 instructions.LoadConstant(0)
+23: 	 instructions.AllocateCons()
+24: 	 instructions.AllocateCons()
+25: 	 instructions.LoadConstant(0)
+26: 	 instructions.AllocateCons()
+27: 	 instructions.AllocateCons()
+28: 	 instructions.AllocateCons()
+29: 	 instructions.AllocateCons()
+30: 	 instructions.AllocateCons()
+31: 	 instructions.StoreToEnv(0, 2)
+
+Visiting <_ast.Assign object at 0x100a898d0>
+
+Visiting <_ast.Call object at 0x100a899d0>
+At function call GET_VALUE
+
+Visiting <_ast.Name object at 0x100a89910>
+Visited <_ast.Name object at 0x100a89910>
+<__main__.ByteCode instance at 0x100a95fc8>
+ByteCode output of size 1:
+0: 	 instructions.LoadEnv(0, 2)
+
+Visiting <_ast.Name object at 0x100a89a90>
+Visited <_ast.Name object at 0x100a89a90>
+<__main__.ByteCode instance at 0x100a96128>
+ByteCode output of size 1:
+0: 	 instructions.LoadEnv(0, 1)
+Visited <_ast.Call object at 0x100a899d0>
+<__main__.ByteCode instance at 0x100a90cb0>
+ByteCode output of size 3:
+0: 	 instructions.LoadEnv(0, 2)
+1: 	 instructions.LoadEnv(0, 1)
+2: 	 ApplyFunction(2) GET_VALUE (locals = 0)
+Need to alocate move
+Visited <_ast.Assign object at 0x100a898d0>
+<__main__.ByteCode instance at 0x100a96128>
+ByteCode output of size 4:
+0: 	 instructions.LoadEnv(0, 2)
+1: 	 instructions.LoadEnv(0, 1)
+2: 	 ApplyFunction(2) GET_VALUE (locals = 0)
+3: 	 instructions.StoreToEnv(0, 3)
+
+Visiting <_ast.Return object at 0x100a89a50>
+
+Visiting <_ast.Tuple object at 0x100a89ad0>
+
+Visiting <_ast.BinOp object at 0x100a89b10>
+At BinOp <_ast.Add object at 0x100a6a350>
+
+Visiting <_ast.Call object at 0x100a89b50>
+At function call FIRST
+
+Visiting <_ast.Name object at 0x100a89bd0>
+Visited <_ast.Name object at 0x100a89bd0>
+<__main__.ByteCode instance at 0x100a96320>
+ByteCode output of size 1:
+0: 	 instructions.LoadEnv(0, 0)
+Found FIRST in built-in
+Visited <_ast.Call object at 0x100a89b50>
+<__main__.ByteCode instance at 0x100a96290>
+ByteCode output of size 2:
+0: 	 instructions.LoadEnv(0, 0)
+1: 	 instructions.ExtractFirst()
+
+Visiting <_ast.Call object at 0x100a89c10>
+At function call FIRST
+
+Visiting <_ast.Name object at 0x100a89c90>
+Visited <_ast.Name object at 0x100a89c90>
+<__main__.ByteCode instance at 0x100a96440>
+ByteCode output of size 1:
+0: 	 instructions.LoadEnv(0, 3)
+Found FIRST in built-in
+Visited <_ast.Call object at 0x100a89c10>
+<__main__.ByteCode instance at 0x100a96320>
+ByteCode output of size 2:
+0: 	 instructions.LoadEnv(0, 3)
+1: 	 instructions.ExtractFirst()
+Visited <_ast.BinOp object at 0x100a89b10>
+<__main__.ByteCode instance at 0x100a90cb0>
+ByteCode output of size 5:
+0: 	 instructions.LoadEnv(0, 0)
+1: 	 instructions.ExtractFirst()
+2: 	 instructions.LoadEnv(0, 3)
+3: 	 instructions.ExtractFirst()
+4: 	 instructions.IntAddition()
+
+Visiting <_ast.BinOp object at 0x100a89cd0>
+At BinOp <_ast.Add object at 0x100a6a350>
+
+Visiting <_ast.Call object at 0x100a89d10>
+At function call SECOND
+
+Visiting <_ast.Name object at 0x100a89d90>
+Visited <_ast.Name object at 0x100a89d90>
+<__main__.ByteCode instance at 0x100a96560>
+ByteCode output of size 1:
+0: 	 instructions.LoadEnv(0, 0)
+Found SECOND in built-in
+Visited <_ast.Call object at 0x100a89d10>
+<__main__.ByteCode instance at 0x100a96290>
+ByteCode output of size 2:
+0: 	 instructions.LoadEnv(0, 0)
+1: 	 instructions.ExtractSecond()
+
+Visiting <_ast.Call object at 0x100a89dd0>
+At function call SECOND
+
+Visiting <_ast.Name object at 0x100a89e50>
+Visited <_ast.Name object at 0x100a89e50>
+<__main__.ByteCode instance at 0x100a96680>
+ByteCode output of size 1:
+0: 	 instructions.LoadEnv(0, 3)
+Found SECOND in built-in
+Visited <_ast.Call object at 0x100a89dd0>
+<__main__.ByteCode instance at 0x100a96560>
+ByteCode output of size 2:
+0: 	 instructions.LoadEnv(0, 3)
+1: 	 instructions.ExtractSecond()
+Visited <_ast.BinOp object at 0x100a89cd0>
+<__main__.ByteCode instance at 0x100a96320>
+ByteCode output of size 5:
+0: 	 instructions.LoadEnv(0, 0)
+1: 	 instructions.ExtractSecond()
+2: 	 instructions.LoadEnv(0, 3)
+3: 	 instructions.ExtractSecond()
+4: 	 instructions.IntAddition()
+Visited <_ast.Tuple object at 0x100a89ad0>
+<__main__.ByteCode instance at 0x100a90cf8>
+ByteCode output of size 13:
+0: 	 instructions.LoadEnv(0, 0)
+1: 	 instructions.ExtractFirst()
+2: 	 instructions.LoadEnv(0, 3)
+3: 	 instructions.ExtractFirst()
+4: 	 instructions.IntAddition()
+5: 	 instructions.LoadEnv(0, 0)
+6: 	 instructions.ExtractSecond()
+7: 	 instructions.LoadEnv(0, 3)
+8: 	 instructions.ExtractSecond()
+9: 	 instructions.IntAddition()
+10: 	 instructions.LoadConstant(0)
+11: 	 instructions.AllocateCons()
+12: 	 instructions.AllocateCons()
+Visited <_ast.Return object at 0x100a89a50>
+<__main__.ByteCode instance at 0x100a90cf8>
+ByteCode output of size 13:
+0: 	 instructions.LoadEnv(0, 0)
+1: 	 instructions.ExtractFirst()
+2: 	 instructions.LoadEnv(0, 3)
+3: 	 instructions.ExtractFirst()
+4: 	 instructions.IntAddition()
+5: 	 instructions.LoadEnv(0, 0)
+6: 	 instructions.ExtractSecond()
+7: 	 instructions.LoadEnv(0, 3)
+8: 	 instructions.ExtractSecond()
+9: 	 instructions.IntAddition()
+10: 	 instructions.LoadConstant(0)
+11: 	 instructions.AllocateCons()
+12: 	 instructions.AllocateCons()
+
+Function body:
+ByteCode output of size 50:
+0: 	 instructions.LoadConstant(-1)
+1: 	 instructions.LoadConstant(0)
+2: 	 instructions.LoadConstant(0)
+3: 	 instructions.AllocateCons()
+4: 	 instructions.AllocateCons()
+5: 	 instructions.LoadConstant(0)
+6: 	 instructions.LoadConstant(1)
+7: 	 instructions.LoadConstant(0)
+8: 	 instructions.AllocateCons()
+9: 	 instructions.AllocateCons()
+10: 	 instructions.LoadConstant(1)
+11: 	 instructions.LoadConstant(0)
+12: 	 instructions.LoadConstant(0)
+13: 	 instructions.AllocateCons()
+14: 	 instructions.AllocateCons()
+15: 	 instructions.LoadConstant(0)
+16: 	 instructions.LoadConstant(-1)
+17: 	 instructions.LoadConstant(0)
+18: 	 instructions.AllocateCons()
+19: 	 instructions.AllocateCons()
+20: 	 instructions.LoadConstant(0)
+21: 	 instructions.LoadConstant(0)
+22: 	 instructions.LoadConstant(0)
+23: 	 instructions.AllocateCons()
+24: 	 instructions.AllocateCons()
+25: 	 instructions.LoadConstant(0)
+26: 	 instructions.AllocateCons()
+27: 	 instructions.AllocateCons()
+28: 	 instructions.AllocateCons()
+29: 	 instructions.AllocateCons()
+30: 	 instructions.AllocateCons()
+31: 	 instructions.StoreToEnv(0, 2)
+32: 	 instructions.LoadEnv(0, 2)
+33: 	 instructions.LoadEnv(0, 1)
+34: 	 ApplyFunction(2) GET_VALUE (locals = 0)
+35: 	 instructions.StoreToEnv(0, 3)
+36: 	 instructions.LoadEnv(0, 0)
+37: 	 instructions.ExtractFirst()
+38: 	 instructions.LoadEnv(0, 3)
+39: 	 instructions.ExtractFirst()
+40: 	 instructions.IntAddition()
+41: 	 instructions.LoadEnv(0, 0)
+42: 	 instructions.ExtractSecond()
+43: 	 instructions.LoadEnv(0, 3)
+44: 	 instructions.ExtractSecond()
+45: 	 instructions.IntAddition()
+46: 	 instructions.LoadConstant(0)
+47: 	 instructions.AllocateCons()
+48: 	 instructions.AllocateCons()
+49: 	 instructions.ReturnFromFunction()
+Visited <_ast.FunctionDef object at 0x100a891d0>
+<__main__.ByteCode instance at 0x100a96320>
+ByteCode output of size 0:
+
+Visiting <_ast.FunctionDef object at 0x100a89e90>
+
+Visiting <_ast.Return object at 0x100a89f90>
+
+Visiting <_ast.UnaryOp object at 0x100a89fd0>
+
+Visiting <_ast.Compare object at 0x100a86050>
+
+Visiting <_ast.Call object at 0x100a86090>
+At function call GET_ARRAY
+
+Visiting <_ast.Name object at 0x100a86110>
+Visited <_ast.Name object at 0x100a86110>
+<__main__.ByteCode instance at 0x100a967e8>
+ByteCode output of size 1:
+0: 	 instructions.LoadEnv(0, 0)
+
+Visiting <_ast.Name object at 0x100a86150>
+Visited <_ast.Name object at 0x100a86150>
+<__main__.ByteCode instance at 0x100a96908>
+ByteCode output of size 1:
+0: 	 instructions.LoadEnv(0, 1)
+Visited <_ast.Call object at 0x100a86090>
+<__main__.ByteCode instance at 0x100a967a0>
+ByteCode output of size 3:
+0: 	 instructions.LoadEnv(0, 0)
+1: 	 instructions.LoadEnv(0, 1)
+2: 	 ApplyFunction(2) GET_ARRAY (locals = 0)
+
+Visiting <_ast.Name object at 0x100a86190>
+Visited <_ast.Name object at 0x100a86190>
+<__main__.ByteCode instance at 0x100a96908>
+ByteCode output of size 1:
+0: 	 instructions.LoadConstant(0)
+Visited <_ast.Compare object at 0x100a86050>
+<__main__.ByteCode instance at 0x100a96a28>
+ByteCode output of size 5:
+0: 	 instructions.LoadEnv(0, 0)
+1: 	 instructions.LoadEnv(0, 1)
+2: 	 ApplyFunction(2) GET_ARRAY (locals = 0)
+3: 	 instructions.LoadConstant(0)
+4: 	 instructions.CompareEqual()
+Visited <_ast.UnaryOp object at 0x100a89fd0>
+<__main__.ByteCode instance at 0x100a96908>
+ByteCode output of size 7:
+0: 	 instructions.LoadEnv(0, 0)
+1: 	 instructions.LoadEnv(0, 1)
+2: 	 ApplyFunction(2) GET_ARRAY (locals = 0)
+3: 	 instructions.LoadConstant(0)
+4: 	 instructions.CompareEqual()
+5: 	 instructions.LoadConstant(0)
+6: 	 instructions.CompareEqual()
+Visited <_ast.Return object at 0x100a89f90>
+<__main__.ByteCode instance at 0x100a96908>
+ByteCode output of size 7:
+0: 	 instructions.LoadEnv(0, 0)
+1: 	 instructions.LoadEnv(0, 1)
+2: 	 ApplyFunction(2) GET_ARRAY (locals = 0)
+3: 	 instructions.LoadConstant(0)
+4: 	 instructions.CompareEqual()
+5: 	 instructions.LoadConstant(0)
+6: 	 instructions.CompareEqual()
+
+Function body:
+ByteCode output of size 8:
+0: 	 instructions.LoadEnv(0, 0)
+1: 	 instructions.LoadEnv(0, 1)
+2: 	 ApplyFunction(2) GET_ARRAY (locals = 0)
+3: 	 instructions.LoadConstant(0)
+4: 	 instructions.CompareEqual()
+5: 	 instructions.LoadConstant(0)
+6: 	 instructions.CompareEqual()
+7: 	 instructions.ReturnFromFunction()
+Visited <_ast.FunctionDef object at 0x100a89e90>
+<__main__.ByteCode instance at 0x100a96b90>
+ByteCode output of size 0:
+
+Visiting <_ast.FunctionDef object at 0x100a861d0>
+
+Visiting <_ast.Assign object at 0x100a86290>
+
+Visiting <_ast.BinOp object at 0x100a86310>
+At BinOp <_ast.Add object at 0x100a6a350>
+
+Visiting <_ast.Name object at 0x100a86350>
+Visited <_ast.Name object at 0x100a86350>
+<__main__.ByteCode instance at 0x100a96c68>
+ByteCode output of size 1:
+0: 	 instructions.LoadEnv(0, 0)
+
+Visiting <_ast.Num object at 0x100a86390>
+Visited <_ast.Num object at 0x100a86390>
+<__main__.ByteCode instance at 0x100a96d88>
+ByteCode output of size 1:
+0: 	 instructions.LoadConstant(1)
+Visited <_ast.BinOp object at 0x100a86310>
+<__main__.ByteCode instance at 0x100a96bd8>
+ByteCode output of size 3:
+0: 	 instructions.LoadEnv(0, 0)
+1: 	 instructions.LoadConstant(1)
+2: 	 instructions.IntAddition()
+Visited <_ast.Assign object at 0x100a86290>
+<__main__.ByteCode instance at 0x100a96d88>
+ByteCode output of size 4:
+0: 	 instructions.LoadEnv(0, 0)
+1: 	 instructions.LoadConstant(1)
+2: 	 instructions.IntAddition()
+3: 	 instructions.StoreToEnv(0, 0)
+
+Visiting <_ast.If object at 0x100a863d0>
+
+Visiting <_ast.Compare object at 0x100a86410>
+
+Visiting <_ast.Name object at 0x100a86450>
+Visited <_ast.Name object at 0x100a86450>
+<__main__.ByteCode instance at 0x100a96bd8>
+ByteCode output of size 1:
+0: 	 instructions.LoadEnv(0, 0)
+
+Visiting <_ast.Num object at 0x100a86490>
+Visited <_ast.Num object at 0x100a86490>
+<__main__.ByteCode instance at 0x100a96fc8>
+ByteCode output of size 1:
+0: 	 instructions.LoadConstant(4)
+Visited <_ast.Compare object at 0x100a86410>
+<__main__.ByteCode instance at 0x100a97128>
+ByteCode output of size 3:
+0: 	 instructions.LoadEnv(0, 0)
+1: 	 instructions.LoadConstant(4)
+2: 	 instructions.CompareEqual()
+
+Visiting <_ast.Assign object at 0x100a864d0>
+
+Visiting <_ast.Num object at 0x100a86550>
+Visited <_ast.Num object at 0x100a86550>
+<__main__.ByteCode instance at 0x100a96bd8>
+ByteCode output of size 1:
+0: 	 instructions.LoadConstant(0)
+Visited <_ast.Assign object at 0x100a864d0>
+<__main__.ByteCode instance at 0x100a972d8>
+ByteCode output of size 2:
+0: 	 instructions.LoadConstant(0)
+1: 	 instructions.StoreToEnv(0, 0)
+Visited <_ast.If object at 0x100a863d0>
+<__main__.ByteCode instance at 0x100a972d8>
+ByteCode output of size 11:
+0: 	 instructions.LoadEnv(0, 0)
+1: 	 instructions.LoadConstant(4)
+2: 	 instructions.CompareEqual()
+3: 	 __main__.TailCallBranchLabel (__if_true_3__, __if_false_4__)
+4: 	 __if_true_3__: 
+5: 	 instructions.LoadConstant(0)
+6: 	 instructions.StoreToEnv(0, 0)
+7: 	 instructions.LoadConstant(0)
+8: 	 __main__.JumpLabel (__if_finish_5__)
+9: 	 __if_false_4__: 
+10: 	 __if_finish_5__: 
+
+Visiting <_ast.Return object at 0x100a86590>
+
+Visiting <_ast.Name object at 0x100a865d0>
+Visited <_ast.Name object at 0x100a865d0>
+<__main__.ByteCode instance at 0x100a96d88>
+ByteCode output of size 1:
+0: 	 instructions.LoadEnv(0, 0)
+Visited <_ast.Return object at 0x100a86590>
+<__main__.ByteCode instance at 0x100a96d88>
+ByteCode output of size 1:
+0: 	 instructions.LoadEnv(0, 0)
+
+Function body:
+ByteCode output of size 17:
+0: 	 instructions.LoadEnv(0, 0)
+1: 	 instructions.LoadConstant(1)
+2: 	 instructions.IntAddition()
+3: 	 instructions.StoreToEnv(0, 0)
+4: 	 instructions.LoadEnv(0, 0)
+5: 	 instructions.LoadConstant(4)
+6: 	 instructions.CompareEqual()
+7: 	 __main__.TailCallBranchLabel (__if_true_3__, __if_false_4__)
+8: 	 __if_true_3__: 
+9: 	 instructions.LoadConstant(0)
+10: 	 instructions.StoreToEnv(0, 0)
+11: 	 instructions.LoadConstant(0)
+12: 	 __main__.JumpLabel (__if_finish_5__)
+13: 	 __if_false_4__: 
+14: 	 __if_finish_5__: 
+15: 	 instructions.LoadEnv(0, 0)
+16: 	 instructions.ReturnFromFunction()
+Visited <_ast.FunctionDef object at 0x100a861d0>
+<__main__.ByteCode instance at 0x100a972d8>
+ByteCode output of size 0:
+
+Visiting <_ast.FunctionDef object at 0x100a86610>
+
+Visiting <_ast.Assign object at 0x100a86710>
+
+Visiting <_ast.Call object at 0x100a86790>
+At function call GET_VALUE
+
+Visiting <_ast.Name object at 0x100a86810>
+Visited <_ast.Name object at 0x100a86810>
+<__main__.ByteCode instance at 0x100a975f0>
+ByteCode output of size 1:
+0: 	 instructions.LoadEnv(0, 1)
+
+Visiting <_ast.Num object at 0x100a86850>
+Visited <_ast.Num object at 0x100a86850>
+<__main__.ByteCode instance at 0x100a976c8>
+ByteCode output of size 1:
+0: 	 instructions.LoadConstant(0)
+Visited <_ast.Call object at 0x100a86790>
+<__main__.ByteCode instance at 0x100a97128>
+ByteCode output of size 3:
+0: 	 instructions.LoadEnv(0, 1)
+1: 	 instructions.LoadConstant(0)
+2: 	 ApplyFunction(2) GET_VALUE (locals = 0)
+Need to alocate world
+Visited <_ast.Assign object at 0x100a86710>
+<__main__.ByteCode instance at 0x100a976c8>
+ByteCode output of size 4:
+0: 	 instructions.LoadEnv(0, 1)
+1: 	 instructions.LoadConstant(0)
+2: 	 ApplyFunction(2) GET_VALUE (locals = 0)
+3: 	 instructions.StoreToEnv(0, 2)
+
+Visiting <_ast.Assign object at 0x100a86890>
+
+Visiting <_ast.Call object at 0x100a86910>
+At function call GET_VALUE
+
+Visiting <_ast.Name object at 0x100a86990>
+Visited <_ast.Name object at 0x100a86990>
+<__main__.ByteCode instance at 0x100a97830>
+ByteCode output of size 1:
+0: 	 instructions.LoadEnv(0, 1)
+
+Visiting <_ast.Num object at 0x100a869d0>
+Visited <_ast.Num object at 0x100a869d0>
+<__main__.ByteCode instance at 0x100a97950>
+ByteCode output of size 1:
+0: 	 instructions.LoadConstant(1)
+Visited <_ast.Call object at 0x100a86910>
+<__main__.ByteCode instance at 0x100a97128>
+ByteCode output of size 3:
+0: 	 instructions.LoadEnv(0, 1)
+1: 	 instructions.LoadConstant(1)
+2: 	 ApplyFunction(2) GET_VALUE (locals = 0)
+Need to alocate man
+Visited <_ast.Assign object at 0x100a86890>
+<__main__.ByteCode instance at 0x100a97950>
+ByteCode output of size 4:
+0: 	 instructions.LoadEnv(0, 1)
+1: 	 instructions.LoadConstant(1)
+2: 	 ApplyFunction(2) GET_VALUE (locals = 0)
+3: 	 instructions.StoreToEnv(0, 3)
+
+Visiting <_ast.Assign object at 0x100a86a10>
+
+Visiting <_ast.Call object at 0x100a86a90>
+At function call GET_VALUE
+
+Visiting <_ast.Name object at 0x100a86b10>
+Visited <_ast.Name object at 0x100a86b10>
+<__main__.ByteCode instance at 0x100a97128>
+ByteCode output of size 1:
+0: 	 instructions.LoadEnv(0, 3)
+
+Visiting <_ast.Num object at 0x100a86b50>
+Visited <_ast.Num object at 0x100a86b50>
+<__main__.ByteCode instance at 0x100a97b48>
+ByteCode output of size 1:
+0: 	 instructions.LoadConstant(1)
+Visited <_ast.Call object at 0x100a86a90>
+<__main__.ByteCode instance at 0x100a976c8>
+ByteCode output of size 3:
+0: 	 instructions.LoadEnv(0, 3)
+1: 	 instructions.LoadConstant(1)
+2: 	 ApplyFunction(2) GET_VALUE (locals = 0)
+Need to alocate man_location
+Visited <_ast.Assign object at 0x100a86a10>
+<__main__.ByteCode instance at 0x100a97b48>
+ByteCode output of size 4:
+0: 	 instructions.LoadEnv(0, 3)
+1: 	 instructions.LoadConstant(1)
+2: 	 ApplyFunction(2) GET_VALUE (locals = 0)
+3: 	 instructions.StoreToEnv(0, 4)
+
+Visiting <_ast.Assign object at 0x100a86b90>
+
+Visiting <_ast.Call object at 0x100a86c10>
+At function call GET_VALUE
+
+Visiting <_ast.Name object at 0x100a86c90>
+Visited <_ast.Name object at 0x100a86c90>
+<__main__.ByteCode instance at 0x100a976c8>
+ByteCode output of size 1:
+0: 	 instructions.LoadEnv(0, 3)
+
+Visiting <_ast.Num object at 0x100a86cd0>
+Visited <_ast.Num object at 0x100a86cd0>
+<__main__.ByteCode instance at 0x100a97d40>
+ByteCode output of size 1:
+0: 	 instructions.LoadConstant(2)
+Visited <_ast.Call object at 0x100a86c10>
+<__main__.ByteCode instance at 0x100a97950>
+ByteCode output of size 3:
+0: 	 instructions.LoadEnv(0, 3)
+1: 	 instructions.LoadConstant(2)
+2: 	 ApplyFunction(2) GET_VALUE (locals = 0)
+Need to alocate man_direction
+Visited <_ast.Assign object at 0x100a86b90>
+<__main__.ByteCode instance at 0x100a97d40>
+ByteCode output of size 4:
+0: 	 instructions.LoadEnv(0, 3)
+1: 	 instructions.LoadConstant(2)
+2: 	 ApplyFunction(2) GET_VALUE (locals = 0)
+3: 	 instructions.StoreToEnv(0, 5)
+
+Visiting <_ast.Assign object at 0x100a86d10>
+
+Visiting <_ast.Call object at 0x100a86d90>
+At function call GET_VALUE
+
+Visiting <_ast.Name object at 0x100a86e10>
+Visited <_ast.Name object at 0x100a86e10>
+<__main__.ByteCode instance at 0x100a97950>
+ByteCode output of size 1:
+0: 	 instructions.LoadEnv(0, 1)
+
+Visiting <_ast.Num object at 0x100a86e50>
+Visited <_ast.Num object at 0x100a86e50>
+<__main__.ByteCode instance at 0x100a97f38>
+ByteCode output of size 1:
+0: 	 instructions.LoadConstant(2)
+Visited <_ast.Call object at 0x100a86d90>
+<__main__.ByteCode instance at 0x100a97b48>
+ByteCode output of size 3:
+0: 	 instructions.LoadEnv(0, 1)
+1: 	 instructions.LoadConstant(2)
+2: 	 ApplyFunction(2) GET_VALUE (locals = 0)
+Need to alocate ghosts
+Visited <_ast.Assign object at 0x100a86d10>
+<__main__.ByteCode instance at 0x100a97f38>
+ByteCode output of size 4:
+0: 	 instructions.LoadEnv(0, 1)
+1: 	 instructions.LoadConstant(2)
+2: 	 ApplyFunction(2) GET_VALUE (locals = 0)
+3: 	 instructions.StoreToEnv(0, 6)
+
+Visiting <_ast.Assign object at 0x100a86e90>
+
+Visiting <_ast.Call object at 0x100a86f10>
+At function call GET_VALUE
+
+Visiting <_ast.Name object at 0x100a86f90>
+Visited <_ast.Name object at 0x100a86f90>
+<__main__.ByteCode instance at 0x100a97b48>
+ByteCode output of size 1:
+0: 	 instructions.LoadEnv(0, 1)
+
+Visiting <_ast.Num object at 0x100a86fd0>
+Visited <_ast.Num object at 0x100a86fd0>
+<__main__.ByteCode instance at 0x100a98170>
+ByteCode output of size 1:
+0: 	 instructions.LoadConstant(3)
+Visited <_ast.Call object at 0x100a86f10>
+<__main__.ByteCode instance at 0x100a97d40>
+ByteCode output of size 3:
+0: 	 instructions.LoadEnv(0, 1)
+1: 	 instructions.LoadConstant(3)
+2: 	 ApplyFunction(2) GET_VALUE (locals = 0)
+Need to alocate fruit
+Visited <_ast.Assign object at 0x100a86e90>
+<__main__.ByteCode instance at 0x100a98170>
+ByteCode output of size 4:
+0: 	 instructions.LoadEnv(0, 1)
+1: 	 instructions.LoadConstant(3)
+2: 	 ApplyFunction(2) GET_VALUE (locals = 0)
+3: 	 instructions.StoreToEnv(0, 7)
+
+Visiting <_ast.Assign object at 0x100a8e050>
+
+Visiting <_ast.Name object at 0x100a8e0d0>
+Visited <_ast.Name object at 0x100a8e0d0>
+<__main__.ByteCode instance at 0x100a97f38>
+ByteCode output of size 1:
+0: 	 instructions.LoadEnv(0, 5)
+Need to alocate final_direction
+Visited <_ast.Assign object at 0x100a8e050>
+<__main__.ByteCode instance at 0x100a982d8>
+ByteCode output of size 2:
+0: 	 instructions.LoadEnv(0, 5)
+1: 	 instructions.StoreToEnv(0, 8)
+
+Visiting <_ast.Assign object at 0x100a8e110>
+
+Visiting <_ast.Num object at 0x100a8e190>
+Visited <_ast.Num object at 0x100a8e190>
+<__main__.ByteCode instance at 0x100a97f38>
+ByteCode output of size 1:
+0: 	 instructions.LoadConstant(0)
+Need to alocate valid_directions
+Visited <_ast.Assign object at 0x100a8e110>
+<__main__.ByteCode instance at 0x100a983f8>
+ByteCode output of size 2:
+0: 	 instructions.LoadConstant(0)
+1: 	 instructions.StoreToEnv(0, 9)
+
+Visiting <_ast.Assign object at 0x100a8e1d0>
+
+Visiting <_ast.Num object at 0x100a8e250>
+Visited <_ast.Num object at 0x100a8e250>
+<__main__.ByteCode instance at 0x100a97f38>
+ByteCode output of size 1:
+0: 	 instructions.LoadConstant(0)
+Need to alocate iteration
+Visited <_ast.Assign object at 0x100a8e1d0>
+<__main__.ByteCode instance at 0x100a98518>
+ByteCode output of size 2:
+0: 	 instructions.LoadConstant(0)
+1: 	 instructions.StoreToEnv(0, 10)
+
+Visiting <_ast.While object at 0x100a8e290>
+
+Visiting <_ast.Compare object at 0x100a8e2d0>
+
+Visiting <_ast.Name object at 0x100a8e310>
+Visited <_ast.Name object at 0x100a8e310>
+<__main__.ByteCode instance at 0x100a97f38>
+ByteCode output of size 1:
+0: 	 instructions.LoadEnv(0, 10)
+
+Visiting <_ast.Num object at 0x100a8e350>
+Visited <_ast.Num object at 0x100a8e350>
+<__main__.ByteCode instance at 0x100a98638>
+ByteCode output of size 1:
+0: 	 instructions.LoadConstant(4)
+Visited <_ast.Compare object at 0x100a8e2d0>
+<__main__.ByteCode instance at 0x100a98758>
+ByteCode output of size 3:
+0: 	 instructions.LoadConstant(4)
+1: 	 instructions.LoadEnv(0, 10)
+2: 	 instructions.CompareGreater()
+
+Visiting <_ast.Assign object at 0x100a8e390>
+
+Visiting <_ast.Call object at 0x100a8e410>
+At function call get_location
+
+Visiting <_ast.Name object at 0x100a8e490>
+Visited <_ast.Name object at 0x100a8e490>
+<__main__.ByteCode instance at 0x100a98878>
+ByteCode output of size 1:
+0: 	 instructions.LoadEnv(0, 4)
+
+Visiting <_ast.Name object at 0x100a8e4d0>
+Visited <_ast.Name object at 0x100a8e4d0>
+<__main__.ByteCode instance at 0x100a98998>
+ByteCode output of size 1:
+0: 	 instructions.LoadEnv(0, 10)
+Visited <_ast.Call object at 0x100a8e410>
+<__main__.ByteCode instance at 0x100a98638>
+ByteCode output of size 3:
+0: 	 instructions.LoadEnv(0, 4)
+1: 	 instructions.LoadEnv(0, 10)
+2: 	 ApplyFunction(2) get_location (locals = 2)
+Need to alocate new_location
+Visited <_ast.Assign object at 0x100a8e390>
+<__main__.ByteCode instance at 0x100a98998>
+ByteCode output of size 4:
+0: 	 instructions.LoadEnv(0, 4)
+1: 	 instructions.LoadEnv(0, 10)
+2: 	 ApplyFunction(2) get_location (locals = 2)
+3: 	 instructions.StoreToEnv(0, 11)
+
+Visiting <_ast.If object at 0x100a8e510>
+
+Visiting <_ast.Call object at 0x100a8e550>
+At function call valid_location
+
+Visiting <_ast.Name object at 0x100a8e5d0>
+Visited <_ast.Name object at 0x100a8e5d0>
+<__main__.ByteCode instance at 0x100a98b00>
+ByteCode output of size 1:
+0: 	 instructions.LoadEnv(0, 2)
+
+Visiting <_ast.Name object at 0x100a8e610>
+Visited <_ast.Name object at 0x100a8e610>
+<__main__.ByteCode instance at 0x100a98c20>
+ByteCode output of size 1:
+0: 	 instructions.LoadEnv(0, 11)
+Visited <_ast.Call object at 0x100a8e550>
+<__main__.ByteCode instance at 0x100a98638>
+ByteCode output of size 3:
+0: 	 instructions.LoadEnv(0, 2)
+1: 	 instructions.LoadEnv(0, 11)
+2: 	 ApplyFunction(2) valid_location (locals = 0)
+
+Visiting <_ast.Assign object at 0x100a8e650>
+
+Visiting <_ast.BinOp object at 0x100a8e6d0>
+At BinOp <_ast.Add object at 0x100a6a350>
+
+Visiting <_ast.Name object at 0x100a8e710>
+Visited <_ast.Name object at 0x100a8e710>
+<__main__.ByteCode instance at 0x100a98d88>
+ByteCode output of size 1:
+0: 	 instructions.LoadEnv(0, 9)
+
+Visiting <_ast.Num object at 0x100a8e750>
+Visited <_ast.Num object at 0x100a8e750>
+<__main__.ByteCode instance at 0x100a98ea8>
+ByteCode output of size 1:
+0: 	 instructions.LoadConstant(1)
+Visited <_ast.BinOp object at 0x100a8e6d0>
+<__main__.ByteCode instance at 0x100a98d40>
+ByteCode output of size 3:
+0: 	 instructions.LoadEnv(0, 9)
+1: 	 instructions.LoadConstant(1)
+2: 	 instructions.IntAddition()
+Visited <_ast.Assign object at 0x100a8e650>
+<__main__.ByteCode instance at 0x100a98ea8>
+ByteCode output of size 4:
+0: 	 instructions.LoadEnv(0, 9)
+1: 	 instructions.LoadConstant(1)
+2: 	 instructions.IntAddition()
+3: 	 instructions.StoreToEnv(0, 9)
+Visited <_ast.If object at 0x100a8e510>
+<__main__.ByteCode instance at 0x100a98d40>
+ByteCode output of size 13:
+0: 	 instructions.LoadEnv(0, 2)
+1: 	 instructions.LoadEnv(0, 11)
+2: 	 ApplyFunction(2) valid_location (locals = 0)
+3: 	 __main__.TailCallBranchLabel (__if_true_6__, __if_false_7__)
+4: 	 __if_true_6__: 
+5: 	 instructions.LoadEnv(0, 9)
+6: 	 instructions.LoadConstant(1)
+7: 	 instructions.IntAddition()
+8: 	 instructions.StoreToEnv(0, 9)
+9: 	 instructions.LoadConstant(0)
+10: 	 __main__.JumpLabel (__if_finish_8__)
+11: 	 __if_false_7__: 
+12: 	 __if_finish_8__: 
+
+Visiting <_ast.Assign object at 0x100a8e790>
+
+Visiting <_ast.BinOp object at 0x100a8e810>
+At BinOp <_ast.Add object at 0x100a6a350>
+
+Visiting <_ast.Name object at 0x100a8e850>
+Visited <_ast.Name object at 0x100a8e850>
+<__main__.ByteCode instance at 0x100a98ea8>
+ByteCode output of size 1:
+0: 	 instructions.LoadEnv(0, 10)
+
+Visiting <_ast.Num object at 0x100a8e890>
+Visited <_ast.Num object at 0x100a8e890>
+<__main__.ByteCode instance at 0x100a98638>
+ByteCode output of size 1:
+0: 	 instructions.LoadConstant(1)
+Visited <_ast.BinOp object at 0x100a8e810>
+<__main__.ByteCode instance at 0x100a98998>
+ByteCode output of size 3:
+0: 	 instructions.LoadEnv(0, 10)
+1: 	 instructions.LoadConstant(1)
+2: 	 instructions.IntAddition()
+Visited <_ast.Assign object at 0x100a8e790>
+<__main__.ByteCode instance at 0x100a98638>
+ByteCode output of size 4:
+0: 	 instructions.LoadEnv(0, 10)
+1: 	 instructions.LoadConstant(1)
+2: 	 instructions.IntAddition()
+3: 	 instructions.StoreToEnv(0, 10)
+Visited <_ast.While object at 0x100a8e290>
+<__main__.ByteCode instance at 0x100a98638>
+ByteCode output of size 30:
+0: 	 __while_start_9__: 
+1: 	 instructions.LoadConstant(4)
+2: 	 instructions.LoadEnv(0, 10)
+3: 	 instructions.CompareGreater()
+4: 	 __main__.TailCallBranchLabel (__while_body_10__, __while_finish_11__)
+5: 	 __while_body_10__: 
+6: 	 instructions.LoadEnv(0, 4)
+7: 	 instructions.LoadEnv(0, 10)
+8: 	 ApplyFunction(2) get_location (locals = 2)
+9: 	 instructions.StoreToEnv(0, 11)
+10: 	 instructions.LoadEnv(0, 2)
+11: 	 instructions.LoadEnv(0, 11)
+12: 	 ApplyFunction(2) valid_location (locals = 0)
+13: 	 __main__.TailCallBranchLabel (__if_true_6__, __if_false_7__)
+14: 	 __if_true_6__: 
+15: 	 instructions.LoadEnv(0, 9)
+16: 	 instructions.LoadConstant(1)
+17: 	 instructions.IntAddition()
+18: 	 instructions.StoreToEnv(0, 9)
+19: 	 instructions.LoadConstant(0)
+20: 	 __main__.JumpLabel (__if_finish_8__)
+21: 	 __if_false_7__: 
+22: 	 __if_finish_8__: 
+23: 	 instructions.LoadEnv(0, 10)
+24: 	 instructions.LoadConstant(1)
+25: 	 instructions.IntAddition()
+26: 	 instructions.StoreToEnv(0, 10)
+27: 	 instructions.LoadConstant(0)
+28: 	 __main__.JumpLabel (__while_start_9__)
+29: 	 __while_finish_11__: 
+
+Visiting <_ast.While object at 0x100a8e8d0>
+
+Visiting <_ast.UnaryOp object at 0x100a8e910>
+
+Visiting <_ast.Call object at 0x100a8e950>
+At function call valid_location
+
+Visiting <_ast.Name object at 0x100a8e9d0>
+Visited <_ast.Name object at 0x100a8e9d0>
+<__main__.ByteCode instance at 0x100a98518>
+ByteCode output of size 1:
+0: 	 instructions.LoadEnv(0, 2)
+
+Visiting <_ast.Call object at 0x100a8ea10>
+At function call get_location
+
+Visiting <_ast.Name object at 0x100a8ea90>
+Visited <_ast.Name object at 0x100a8ea90>
+<__main__.ByteCode instance at 0x1009da518>
+ByteCode output of size 1:
+0: 	 instructions.LoadEnv(0, 4)
+
+Visiting <_ast.Name object at 0x100a8ead0>
+Visited <_ast.Name object at 0x100a8ead0>
+<__main__.ByteCode instance at 0x1009da638>
+ByteCode output of size 1:
+0: 	 instructions.LoadEnv(0, 8)
+Visited <_ast.Call object at 0x100a8ea10>
+<__main__.ByteCode instance at 0x1009da4d0>
+ByteCode output of size 3:
+0: 	 instructions.LoadEnv(0, 4)
+1: 	 instructions.LoadEnv(0, 8)
+2: 	 ApplyFunction(2) get_location (locals = 2)
+Visited <_ast.Call object at 0x100a8e950>
+<__main__.ByteCode instance at 0x100a97f38>
+ByteCode output of size 5:
+0: 	 instructions.LoadEnv(0, 2)
+1: 	 instructions.LoadEnv(0, 4)
+2: 	 instructions.LoadEnv(0, 8)
+3: 	 ApplyFunction(2) get_location (locals = 2)
+4: 	 ApplyFunction(2) valid_location (locals = 0)
+Visited <_ast.UnaryOp object at 0x100a8e910>
+<__main__.ByteCode instance at 0x1009da4d0>
+ByteCode output of size 7:
+0: 	 instructions.LoadEnv(0, 2)
+1: 	 instructions.LoadEnv(0, 4)
+2: 	 instructions.LoadEnv(0, 8)
+3: 	 ApplyFunction(2) get_location (locals = 2)
+4: 	 ApplyFunction(2) valid_location (locals = 0)
+5: 	 instructions.LoadConstant(0)
+6: 	 instructions.CompareEqual()
+
+Visiting <_ast.Assign object at 0x100a8eb10>
+
+Visiting <_ast.Call object at 0x100a8eb90>
+At function call next_direction
+
+Visiting <_ast.Name object at 0x100a8ec10>
+Visited <_ast.Name object at 0x100a8ec10>
+<__main__.ByteCode instance at 0x1009da7e8>
+ByteCode output of size 1:
+0: 	 instructions.LoadEnv(0, 8)
+Visited <_ast.Call object at 0x100a8eb90>
+<__main__.ByteCode instance at 0x1009da7a0>
+ByteCode output of size 2:
+0: 	 instructions.LoadEnv(0, 8)
+1: 	 ApplyFunction(1) next_direction (locals = 0)
+Visited <_ast.Assign object at 0x100a8eb10>
+<__main__.ByteCode instance at 0x1009da7e8>
+ByteCode output of size 3:
+0: 	 instructions.LoadEnv(0, 8)
+1: 	 ApplyFunction(1) next_direction (locals = 0)
+2: 	 instructions.StoreToEnv(0, 8)
+Visited <_ast.While object at 0x100a8e8d0>
+<__main__.ByteCode instance at 0x1009da7e8>
+ByteCode output of size 16:
+0: 	 __while_start_12__: 
+1: 	 instructions.LoadEnv(0, 2)
+2: 	 instructions.LoadEnv(0, 4)
+3: 	 instructions.LoadEnv(0, 8)
+4: 	 ApplyFunction(2) get_location (locals = 2)
+5: 	 ApplyFunction(2) valid_location (locals = 0)
+6: 	 instructions.LoadConstant(0)
+7: 	 instructions.CompareEqual()
+8: 	 __main__.TailCallBranchLabel (__while_body_13__, __while_finish_14__)
+9: 	 __while_body_13__: 
+10: 	 instructions.LoadEnv(0, 8)
+11: 	 ApplyFunction(1) next_direction (locals = 0)
+12: 	 instructions.StoreToEnv(0, 8)
+13: 	 instructions.LoadConstant(0)
+14: 	 __main__.JumpLabel (__while_start_12__)
+15: 	 __while_finish_14__: 
+
+Visiting <_ast.Return object at 0x100a8ec50>
+
+Visiting <_ast.Name object at 0x100a8ec90>
+Visited <_ast.Name object at 0x100a8ec90>
+<__main__.ByteCode instance at 0x100a98638>
+ByteCode output of size 1:
+0: 	 instructions.LoadEnv(0, 8)
+Visited <_ast.Return object at 0x100a8ec50>
+<__main__.ByteCode instance at 0x100a98638>
+ByteCode output of size 1:
+0: 	 instructions.LoadEnv(0, 8)
+
+Function body:
+ByteCode output of size 78:
+0: 	 instructions.LoadEnv(0, 1)
+1: 	 instructions.LoadConstant(0)
+2: 	 ApplyFunction(2) GET_VALUE (locals = 0)
+3: 	 instructions.StoreToEnv(0, 2)
+4: 	 instructions.LoadEnv(0, 1)
+5: 	 instructions.LoadConstant(1)
+6: 	 ApplyFunction(2) GET_VALUE (locals = 0)
+7: 	 instructions.StoreToEnv(0, 3)
+8: 	 instructions.LoadEnv(0, 3)
+9: 	 instructions.LoadConstant(1)
+10: 	 ApplyFunction(2) GET_VALUE (locals = 0)
+11: 	 instructions.StoreToEnv(0, 4)
+12: 	 instructions.LoadEnv(0, 3)
+13: 	 instructions.LoadConstant(2)
+14: 	 ApplyFunction(2) GET_VALUE (locals = 0)
+15: 	 instructions.StoreToEnv(0, 5)
+16: 	 instructions.LoadEnv(0, 1)
+17: 	 instructions.LoadConstant(2)
+18: 	 ApplyFunction(2) GET_VALUE (locals = 0)
+19: 	 instructions.StoreToEnv(0, 6)
+20: 	 instructions.LoadEnv(0, 1)
+21: 	 instructions.LoadConstant(3)
+22: 	 ApplyFunction(2) GET_VALUE (locals = 0)
+23: 	 instructions.StoreToEnv(0, 7)
+24: 	 instructions.LoadEnv(0, 5)
+25: 	 instructions.StoreToEnv(0, 8)
+26: 	 instructions.LoadConstant(0)
+27: 	 instructions.StoreToEnv(0, 9)
+28: 	 instructions.LoadConstant(0)
+29: 	 instructions.StoreToEnv(0, 10)
+30: 	 __while_start_9__: 
+31: 	 instructions.LoadConstant(4)
+32: 	 instructions.LoadEnv(0, 10)
+33: 	 instructions.CompareGreater()
+34: 	 __main__.TailCallBranchLabel (__while_body_10__, __while_finish_11__)
+35: 	 __while_body_10__: 
+36: 	 instructions.LoadEnv(0, 4)
+37: 	 instructions.LoadEnv(0, 10)
+38: 	 ApplyFunction(2) get_location (locals = 2)
+39: 	 instructions.StoreToEnv(0, 11)
+40: 	 instructions.LoadEnv(0, 2)
+41: 	 instructions.LoadEnv(0, 11)
+42: 	 ApplyFunction(2) valid_location (locals = 0)
+43: 	 __main__.TailCallBranchLabel (__if_true_6__, __if_false_7__)
+44: 	 __if_true_6__: 
+45: 	 instructions.LoadEnv(0, 9)
+46: 	 instructions.LoadConstant(1)
+47: 	 instructions.IntAddition()
+48: 	 instructions.StoreToEnv(0, 9)
+49: 	 instructions.LoadConstant(0)
+50: 	 __main__.JumpLabel (__if_finish_8__)
+51: 	 __if_false_7__: 
+52: 	 __if_finish_8__: 
+53: 	 instructions.LoadEnv(0, 10)
+54: 	 instructions.LoadConstant(1)
+55: 	 instructions.IntAddition()
+56: 	 instructions.StoreToEnv(0, 10)
+57: 	 instructions.LoadConstant(0)
+58: 	 __main__.JumpLabel (__while_start_9__)
+59: 	 __while_finish_11__: 
+60: 	 __while_start_12__: 
+61: 	 instructions.LoadEnv(0, 2)
+62: 	 instructions.LoadEnv(0, 4)
+63: 	 instructions.LoadEnv(0, 8)
+64: 	 ApplyFunction(2) get_location (locals = 2)
+65: 	 ApplyFunction(2) valid_location (locals = 0)
+66: 	 instructions.LoadConstant(0)
+67: 	 instructions.CompareEqual()
+68: 	 __main__.TailCallBranchLabel (__while_body_13__, __while_finish_14__)
+69: 	 __while_body_13__: 
+70: 	 instructions.LoadEnv(0, 8)
+71: 	 ApplyFunction(1) next_direction (locals = 0)
+72: 	 instructions.StoreToEnv(0, 8)
+73: 	 instructions.LoadConstant(0)
+74: 	 __main__.JumpLabel (__while_start_12__)
+75: 	 __while_finish_14__: 
+76: 	 instructions.LoadEnv(0, 8)
+77: 	 instructions.ReturnFromFunction()
+Visited <_ast.FunctionDef object at 0x100a86610>
+<__main__.ByteCode instance at 0x1009da4d0>
+ByteCode output of size 0:
+
+Visiting <_ast.Expr object at 0x100a8ecd0>
+
+Visiting <_ast.Call object at 0x100a8ed10>
+At function call main
+
+Visiting <_ast.Num object at 0x100a8ed90>
+Visited <_ast.Num object at 0x100a8ed90>
+<__main__.ByteCode instance at 0x1009dab48>
+ByteCode output of size 1:
+0: 	 instructions.LoadConstant(0)
+
+Visiting <_ast.Tuple object at 0x100a8edd0>
+
+Visiting <_ast.Num object at 0x100a8ee10>
+Visited <_ast.Num object at 0x100a8ee10>
+<__main__.ByteCode instance at 0x1009dacb0>
+ByteCode output of size 1:
+0: 	 instructions.LoadConstant(0)
+
+Visiting <_ast.Num object at 0x100a8ee50>
+Visited <_ast.Num object at 0x100a8ee50>
+<__main__.ByteCode instance at 0x1009dadd0>
+ByteCode output of size 1:
+0: 	 instructions.LoadConstant(0)
+Visited <_ast.Tuple object at 0x100a8edd0>
+<__main__.ByteCode instance at 0x1009dac20>
+ByteCode output of size 5:
+0: 	 instructions.LoadConstant(0)
+1: 	 instructions.LoadConstant(0)
+2: 	 instructions.LoadConstant(0)
+3: 	 instructions.AllocateCons()
+4: 	 instructions.AllocateCons()
+Visited <_ast.Call object at 0x100a8ed10>
+<__main__.ByteCode instance at 0x100a972d8>
+ByteCode output of size 7:
+0: 	 instructions.LoadConstant(0)
+1: 	 instructions.LoadConstant(0)
+2: 	 instructions.LoadConstant(0)
+3: 	 instructions.LoadConstant(0)
+4: 	 instructions.AllocateCons()
+5: 	 instructions.AllocateCons()
+6: 	 ApplyFunction(2) main (locals = 10)
+Visited <_ast.Expr object at 0x100a8ecd0>
+<__main__.ByteCode instance at 0x100a972d8>
+ByteCode output of size 7:
+0: 	 instructions.LoadConstant(0)
+1: 	 instructions.LoadConstant(0)
+2: 	 instructions.LoadConstant(0)
+3: 	 instructions.LoadConstant(0)
+4: 	 instructions.AllocateCons()
+5: 	 instructions.AllocateCons()
+6: 	 ApplyFunction(2) main (locals = 10)
+Visited <_ast.Module object at 0x100a7fa50>
+<__main__.ByteCode instance at 0x100a8d368>
+ByteCode output of size 8:
+0: 	 instructions.LoadConstant(0)
+1: 	 instructions.LoadConstant(0)
+2: 	 instructions.LoadConstant(0)
+3: 	 instructions.LoadConstant(0)
+4: 	 instructions.AllocateCons()
+5: 	 instructions.AllocateCons()
+6: 	 ApplyFunction(2) main (locals = 10)
+7: 	 instructions.ReturnFromFunction()
+
+Expanding byte code
+ByteCode output of size 8:
+0: 	 instructions.LoadConstant(0)
+1: 	 instructions.LoadConstant(0)
+2: 	 instructions.LoadConstant(0)
+3: 	 instructions.LoadConstant(0)
+4: 	 instructions.AllocateCons()
+5: 	 instructions.AllocateCons()
+6: 	 ApplyFunction(2) main (locals = 10)
+7: 	 instructions.ReturnFromFunction()
+
+This code was expanded:
+ByteCode output of size 279:
+0: 	 instructions.LoadConstant(0)
+1: 	 __main__.JumpLabel (__real_main__)
+2: 	 GET_VALUE: 
+3: 	 __while_start_0__: 
+4: 	 instructions.LoadEnv(0, 1)
+5: 	 instructions.LoadConstant(0)
+6: 	 instructions.CompareGreater()
+7: 	 __main__.TailCallBranchLabel (__while_body_1__, __while_finish_2__)
+8: 	 __while_body_1__: 
+9: 	 instructions.LoadEnv(0, 0)
+10: 	 instructions.ExtractSecond()
+11: 	 instructions.StoreToEnv(0, 0)
+12: 	 instructions.LoadEnv(0, 1)
+13: 	 instructions.LoadConstant(1)
+14: 	 instructions.IntSubtraction()
+15: 	 instructions.StoreToEnv(0, 1)
+16: 	 instructions.LoadConstant(0)
+17: 	 __main__.JumpLabel (__while_start_0__)
+18: 	 __while_finish_2__: 
+19: 	 instructions.LoadEnv(0, 0)
+20: 	 instructions.ExtractFirst()
+21: 	 instructions.ReturnFromFunction()
+22: 	 GET_ARRAY: 
+23: 	 instructions.LoadEnv(0, 0)
+24: 	 instructions.LoadEnv(0, 1)
+25: 	 instructions.ExtractFirst()
+26: 	 __main__.LoadFunctionLabel (GET_VALUE)
+27: 	 instructions.CallFunction(2)
+28: 	 instructions.LoadEnv(0, 1)
+29: 	 instructions.ExtractSecond()
+30: 	 __main__.LoadFunctionLabel (GET_VALUE)
+31: 	 instructions.CallFunction(2)
+32: 	 instructions.ReturnFromFunction()
+33: 	 GET_LOCATION: 
+34: 	 instructions.LoadConstant(-1)
+35: 	 instructions.LoadConstant(0)
+36: 	 instructions.LoadConstant(0)
+37: 	 instructions.AllocateCons()
+38: 	 instructions.AllocateCons()
+39: 	 instructions.LoadConstant(0)
+40: 	 instructions.LoadConstant(1)
+41: 	 instructions.LoadConstant(0)
+42: 	 instructions.AllocateCons()
+43: 	 instructions.AllocateCons()
+44: 	 instructions.LoadConstant(1)
+45: 	 instructions.LoadConstant(0)
+46: 	 instructions.LoadConstant(0)
+47: 	 instructions.AllocateCons()
+48: 	 instructions.AllocateCons()
+49: 	 instructions.LoadConstant(0)
+50: 	 instructions.LoadConstant(-1)
+51: 	 instructions.LoadConstant(0)
+52: 	 instructions.AllocateCons()
+53: 	 instructions.AllocateCons()
+54: 	 instructions.LoadConstant(0)
+55: 	 instructions.LoadConstant(0)
+56: 	 instructions.LoadConstant(0)
+57: 	 instructions.AllocateCons()
+58: 	 instructions.AllocateCons()
+59: 	 instructions.LoadConstant(0)
+60: 	 instructions.AllocateCons()
+61: 	 instructions.AllocateCons()
+62: 	 instructions.AllocateCons()
+63: 	 instructions.AllocateCons()
+64: 	 instructions.AllocateCons()
+65: 	 instructions.StoreToEnv(0, 2)
+66: 	 instructions.LoadEnv(0, 2)
+67: 	 instructions.LoadEnv(0, 1)
+68: 	 __main__.LoadFunctionLabel (GET_VALUE)
+69: 	 instructions.CallFunction(2)
+70: 	 instructions.StoreToEnv(0, 3)
+71: 	 instructions.LoadEnv(0, 0)
+72: 	 instructions.ExtractFirst()
+73: 	 instructions.LoadEnv(0, 3)
+74: 	 instructions.ExtractFirst()
+75: 	 instructions.IntAddition()
+76: 	 instructions.LoadEnv(0, 0)
+77: 	 instructions.ExtractSecond()
+78: 	 instructions.LoadEnv(0, 3)
+79: 	 instructions.ExtractSecond()
+80: 	 instructions.IntAddition()
+81: 	 instructions.LoadConstant(0)
+82: 	 instructions.AllocateCons()
+83: 	 instructions.AllocateCons()
+84: 	 instructions.ReturnFromFunction()
+85: 	 get_location: 
+86: 	 instructions.LoadConstant(-1)
+87: 	 instructions.LoadConstant(0)
+88: 	 instructions.LoadConstant(0)
+89: 	 instructions.AllocateCons()
+90: 	 instructions.AllocateCons()
+91: 	 instructions.LoadConstant(0)
+92: 	 instructions.LoadConstant(1)
+93: 	 instructions.LoadConstant(0)
+94: 	 instructions.AllocateCons()
+95: 	 instructions.AllocateCons()
+96: 	 instructions.LoadConstant(1)
+97: 	 instructions.LoadConstant(0)
+98: 	 instructions.LoadConstant(0)
+99: 	 instructions.AllocateCons()
+100: 	 instructions.AllocateCons()
+101: 	 instructions.LoadConstant(0)
+102: 	 instructions.LoadConstant(-1)
+103: 	 instructions.LoadConstant(0)
+104: 	 instructions.AllocateCons()
+105: 	 instructions.AllocateCons()
+106: 	 instructions.LoadConstant(0)
+107: 	 instructions.LoadConstant(0)
+108: 	 instructions.LoadConstant(0)
+109: 	 instructions.AllocateCons()
+110: 	 instructions.AllocateCons()
+111: 	 instructions.LoadConstant(0)
+112: 	 instructions.AllocateCons()
+113: 	 instructions.AllocateCons()
+114: 	 instructions.AllocateCons()
+115: 	 instructions.AllocateCons()
+116: 	 instructions.AllocateCons()
+117: 	 instructions.StoreToEnv(0, 2)
+118: 	 instructions.LoadEnv(0, 2)
+119: 	 instructions.LoadEnv(0, 1)
+120: 	 __main__.LoadFunctionLabel (GET_VALUE)
+121: 	 instructions.CallFunction(2)
+122: 	 instructions.StoreToEnv(0, 3)
+123: 	 instructions.LoadEnv(0, 0)
+124: 	 instructions.ExtractFirst()
+125: 	 instructions.LoadEnv(0, 3)
+126: 	 instructions.ExtractFirst()
+127: 	 instructions.IntAddition()
+128: 	 instructions.LoadEnv(0, 0)
+129: 	 instructions.ExtractSecond()
+130: 	 instructions.LoadEnv(0, 3)
+131: 	 instructions.ExtractSecond()
+132: 	 instructions.IntAddition()
+133: 	 instructions.LoadConstant(0)
+134: 	 instructions.AllocateCons()
+135: 	 instructions.AllocateCons()
+136: 	 instructions.ReturnFromFunction()
+137: 	 valid_location: 
+138: 	 instructions.LoadEnv(0, 0)
+139: 	 instructions.LoadEnv(0, 1)
+140: 	 __main__.LoadFunctionLabel (GET_ARRAY)
+141: 	 instructions.CallFunction(2)
+142: 	 instructions.LoadConstant(0)
+143: 	 instructions.CompareEqual()
+144: 	 instructions.LoadConstant(0)
+145: 	 instructions.CompareEqual()
+146: 	 instructions.ReturnFromFunction()
+147: 	 next_direction: 
+148: 	 instructions.LoadEnv(0, 0)
+149: 	 instructions.LoadConstant(1)
+150: 	 instructions.IntAddition()
+151: 	 instructions.StoreToEnv(0, 0)
+152: 	 instructions.LoadEnv(0, 0)
+153: 	 instructions.LoadConstant(4)
+154: 	 instructions.CompareEqual()
+155: 	 __main__.TailCallBranchLabel (__if_true_3__, __if_false_4__)
+156: 	 __if_true_3__: 
+157: 	 instructions.LoadConstant(0)
+158: 	 instructions.StoreToEnv(0, 0)
+159: 	 instructions.LoadConstant(0)
+160: 	 __main__.JumpLabel (__if_finish_5__)
+161: 	 __if_false_4__: 
+162: 	 __if_finish_5__: 
+163: 	 instructions.LoadEnv(0, 0)
+164: 	 instructions.ReturnFromFunction()
+165: 	 main: 
+166: 	 instructions.LoadEnv(0, 1)
+167: 	 instructions.LoadConstant(0)
+168: 	 __main__.LoadFunctionLabel (GET_VALUE)
+169: 	 instructions.CallFunction(2)
+170: 	 instructions.StoreToEnv(0, 2)
+171: 	 instructions.LoadEnv(0, 1)
+172: 	 instructions.LoadConstant(1)
+173: 	 __main__.LoadFunctionLabel (GET_VALUE)
+174: 	 instructions.CallFunction(2)
+175: 	 instructions.StoreToEnv(0, 3)
+176: 	 instructions.LoadEnv(0, 3)
+177: 	 instructions.LoadConstant(1)
+178: 	 __main__.LoadFunctionLabel (GET_VALUE)
+179: 	 instructions.CallFunction(2)
+180: 	 instructions.StoreToEnv(0, 4)
+181: 	 instructions.LoadEnv(0, 3)
+182: 	 instructions.LoadConstant(2)
+183: 	 __main__.LoadFunctionLabel (GET_VALUE)
+184: 	 instructions.CallFunction(2)
+185: 	 instructions.StoreToEnv(0, 5)
+186: 	 instructions.LoadEnv(0, 1)
+187: 	 instructions.LoadConstant(2)
+188: 	 __main__.LoadFunctionLabel (GET_VALUE)
+189: 	 instructions.CallFunction(2)
+190: 	 instructions.StoreToEnv(0, 6)
+191: 	 instructions.LoadEnv(0, 1)
+192: 	 instructions.LoadConstant(3)
+193: 	 __main__.LoadFunctionLabel (GET_VALUE)
+194: 	 instructions.CallFunction(2)
+195: 	 instructions.StoreToEnv(0, 7)
+196: 	 instructions.LoadEnv(0, 5)
+197: 	 instructions.StoreToEnv(0, 8)
+198: 	 instructions.LoadConstant(0)
+199: 	 instructions.StoreToEnv(0, 9)
+200: 	 instructions.LoadConstant(0)
+201: 	 instructions.StoreToEnv(0, 10)
+202: 	 __while_start_9__: 
+203: 	 instructions.LoadConstant(4)
+204: 	 instructions.LoadEnv(0, 10)
+205: 	 instructions.CompareGreater()
+206: 	 __main__.TailCallBranchLabel (__while_body_10__, __while_finish_11__)
+207: 	 __while_body_10__: 
+208: 	 instructions.LoadEnv(0, 4)
+209: 	 instructions.LoadEnv(0, 10)
+210: 	 instructions.LoadConstant(0)
+211: 	 instructions.LoadConstant(0)
+212: 	 __main__.LoadFunctionLabel (get_location)
+213: 	 instructions.CallFunction(4)
+214: 	 instructions.StoreToEnv(0, 11)
+215: 	 instructions.LoadEnv(0, 2)
+216: 	 instructions.LoadEnv(0, 11)
+217: 	 __main__.LoadFunctionLabel (valid_location)
+218: 	 instructions.CallFunction(2)
+219: 	 __main__.TailCallBranchLabel (__if_true_6__, __if_false_7__)
+220: 	 __if_true_6__: 
+221: 	 instructions.LoadEnv(0, 9)
+222: 	 instructions.LoadConstant(1)
+223: 	 instructions.IntAddition()
+224: 	 instructions.StoreToEnv(0, 9)
+225: 	 instructions.LoadConstant(0)
+226: 	 __main__.JumpLabel (__if_finish_8__)
+227: 	 __if_false_7__: 
+228: 	 __if_finish_8__: 
+229: 	 instructions.LoadEnv(0, 10)
+230: 	 instructions.LoadConstant(1)
+231: 	 instructions.IntAddition()
+232: 	 instructions.StoreToEnv(0, 10)
+233: 	 instructions.LoadConstant(0)
+234: 	 __main__.JumpLabel (__while_start_9__)
+235: 	 __while_finish_11__: 
+236: 	 __while_start_12__: 
+237: 	 instructions.LoadEnv(0, 2)
+238: 	 instructions.LoadEnv(0, 4)
+239: 	 instructions.LoadEnv(0, 8)
+240: 	 instructions.LoadConstant(0)
+241: 	 instructions.LoadConstant(0)
+242: 	 __main__.LoadFunctionLabel (get_location)
+243: 	 instructions.CallFunction(4)
+244: 	 __main__.LoadFunctionLabel (valid_location)
+245: 	 instructions.CallFunction(2)
+246: 	 instructions.LoadConstant(0)
+247: 	 instructions.CompareEqual()
+248: 	 __main__.TailCallBranchLabel (__while_body_13__, __while_finish_14__)
+249: 	 __while_body_13__: 
+250: 	 instructions.LoadEnv(0, 8)
+251: 	 __main__.LoadFunctionLabel (next_direction)
+252: 	 instructions.CallFunction(1)
+253: 	 instructions.StoreToEnv(0, 8)
+254: 	 instructions.LoadConstant(0)
+255: 	 __main__.JumpLabel (__while_start_12__)
+256: 	 __while_finish_14__: 
+257: 	 instructions.LoadEnv(0, 8)
+258: 	 instructions.ReturnFromFunction()
+259: 	 __real_main__: 
+260: 	 instructions.LoadConstant(0)
+261: 	 instructions.LoadConstant(0)
+262: 	 instructions.LoadConstant(0)
+263: 	 instructions.LoadConstant(0)
+264: 	 instructions.AllocateCons()
+265: 	 instructions.AllocateCons()
+266: 	 instructions.LoadConstant(0)
+267: 	 instructions.LoadConstant(0)
+268: 	 instructions.LoadConstant(0)
+269: 	 instructions.LoadConstant(0)
+270: 	 instructions.LoadConstant(0)
+271: 	 instructions.LoadConstant(0)
+272: 	 instructions.LoadConstant(0)
+273: 	 instructions.LoadConstant(0)
+274: 	 instructions.LoadConstant(0)
+275: 	 instructions.LoadConstant(0)
+276: 	 __main__.LoadFunctionLabel (main)
+277: 	 instructions.CallFunction(12)
+278: 	 instructions.ReturnFromFunction()
+
+After replacing:
+ByteCode output of size 256:
+0: 	 instructions.LoadConstant(0)
+1: 	 instructions.TailCallBranch(237, 237)
+2: 	 instructions.LoadEnv(0, 1)
+3: 	 instructions.LoadConstant(0)
+4: 	 instructions.CompareGreater()
+5: 	 instructions.TailCallBranch(6, 15)
+6: 	 instructions.LoadEnv(0, 0)
+7: 	 instructions.ExtractSecond()
+8: 	 instructions.StoreToEnv(0, 0)
+9: 	 instructions.LoadEnv(0, 1)
+10: 	 instructions.LoadConstant(1)
+11: 	 instructions.IntSubtraction()
+12: 	 instructions.StoreToEnv(0, 1)
+13: 	 instructions.LoadConstant(0)
+14: 	 instructions.TailCallBranch(2, 2)
+15: 	 instructions.LoadEnv(0, 0)
+16: 	 instructions.ExtractFirst()
+17: 	 instructions.ReturnFromFunction()
+18: 	 instructions.LoadEnv(0, 0)
+19: 	 instructions.LoadEnv(0, 1)
+20: 	 instructions.ExtractFirst()
+21: 	 instructions.LoadFunction(2)
+22: 	 instructions.CallFunction(2)
+23: 	 instructions.LoadEnv(0, 1)
+24: 	 instructions.ExtractSecond()
+25: 	 instructions.LoadFunction(2)
+26: 	 instructions.CallFunction(2)
+27: 	 instructions.ReturnFromFunction()
+28: 	 instructions.LoadConstant(-1)
+29: 	 instructions.LoadConstant(0)
+30: 	 instructions.LoadConstant(0)
+31: 	 instructions.AllocateCons()
+32: 	 instructions.AllocateCons()
+33: 	 instructions.LoadConstant(0)
+34: 	 instructions.LoadConstant(1)
+35: 	 instructions.LoadConstant(0)
+36: 	 instructions.AllocateCons()
+37: 	 instructions.AllocateCons()
+38: 	 instructions.LoadConstant(1)
+39: 	 instructions.LoadConstant(0)
+40: 	 instructions.LoadConstant(0)
+41: 	 instructions.AllocateCons()
+42: 	 instructions.AllocateCons()
+43: 	 instructions.LoadConstant(0)
+44: 	 instructions.LoadConstant(-1)
+45: 	 instructions.LoadConstant(0)
+46: 	 instructions.AllocateCons()
+47: 	 instructions.AllocateCons()
+48: 	 instructions.LoadConstant(0)
+49: 	 instructions.LoadConstant(0)
+50: 	 instructions.LoadConstant(0)
+51: 	 instructions.AllocateCons()
+52: 	 instructions.AllocateCons()
+53: 	 instructions.LoadConstant(0)
+54: 	 instructions.AllocateCons()
+55: 	 instructions.AllocateCons()
+56: 	 instructions.AllocateCons()
+57: 	 instructions.AllocateCons()
+58: 	 instructions.AllocateCons()
+59: 	 instructions.StoreToEnv(0, 2)
+60: 	 instructions.LoadEnv(0, 2)
+61: 	 instructions.LoadEnv(0, 1)
+62: 	 instructions.LoadFunction(2)
+63: 	 instructions.CallFunction(2)
+64: 	 instructions.StoreToEnv(0, 3)
+65: 	 instructions.LoadEnv(0, 0)
+66: 	 instructions.ExtractFirst()
+67: 	 instructions.LoadEnv(0, 3)
+68: 	 instructions.ExtractFirst()
+69: 	 instructions.IntAddition()
+70: 	 instructions.LoadEnv(0, 0)
+71: 	 instructions.ExtractSecond()
+72: 	 instructions.LoadEnv(0, 3)
+73: 	 instructions.ExtractSecond()
+74: 	 instructions.IntAddition()
+75: 	 instructions.LoadConstant(0)
+76: 	 instructions.AllocateCons()
+77: 	 instructions.AllocateCons()
+78: 	 instructions.ReturnFromFunction()
+79: 	 instructions.LoadConstant(-1)
+80: 	 instructions.LoadConstant(0)
+81: 	 instructions.LoadConstant(0)
+82: 	 instructions.AllocateCons()
+83: 	 instructions.AllocateCons()
+84: 	 instructions.LoadConstant(0)
+85: 	 instructions.LoadConstant(1)
+86: 	 instructions.LoadConstant(0)
+87: 	 instructions.AllocateCons()
+88: 	 instructions.AllocateCons()
+89: 	 instructions.LoadConstant(1)
+90: 	 instructions.LoadConstant(0)
+91: 	 instructions.LoadConstant(0)
+92: 	 instructions.AllocateCons()
+93: 	 instructions.AllocateCons()
+94: 	 instructions.LoadConstant(0)
+95: 	 instructions.LoadConstant(-1)
+96: 	 instructions.LoadConstant(0)
+97: 	 instructions.AllocateCons()
+98: 	 instructions.AllocateCons()
+99: 	 instructions.LoadConstant(0)
+100: 	 instructions.LoadConstant(0)
+101: 	 instructions.LoadConstant(0)
+102: 	 instructions.AllocateCons()
+103: 	 instructions.AllocateCons()
+104: 	 instructions.LoadConstant(0)
+105: 	 instructions.AllocateCons()
+106: 	 instructions.AllocateCons()
+107: 	 instructions.AllocateCons()
+108: 	 instructions.AllocateCons()
+109: 	 instructions.AllocateCons()
+110: 	 instructions.StoreToEnv(0, 2)
+111: 	 instructions.LoadEnv(0, 2)
+112: 	 instructions.LoadEnv(0, 1)
+113: 	 instructions.LoadFunction(2)
+114: 	 instructions.CallFunction(2)
+115: 	 instructions.StoreToEnv(0, 3)
+116: 	 instructions.LoadEnv(0, 0)
+117: 	 instructions.ExtractFirst()
+118: 	 instructions.LoadEnv(0, 3)
+119: 	 instructions.ExtractFirst()
+120: 	 instructions.IntAddition()
+121: 	 instructions.LoadEnv(0, 0)
+122: 	 instructions.ExtractSecond()
+123: 	 instructions.LoadEnv(0, 3)
+124: 	 instructions.ExtractSecond()
+125: 	 instructions.IntAddition()
+126: 	 instructions.LoadConstant(0)
+127: 	 instructions.AllocateCons()
+128: 	 instructions.AllocateCons()
+129: 	 instructions.ReturnFromFunction()
+130: 	 instructions.LoadEnv(0, 0)
+131: 	 instructions.LoadEnv(0, 1)
+132: 	 instructions.LoadFunction(18)
+133: 	 instructions.CallFunction(2)
+134: 	 instructions.LoadConstant(0)
+135: 	 instructions.CompareEqual()
+136: 	 instructions.LoadConstant(0)
+137: 	 instructions.CompareEqual()
+138: 	 instructions.ReturnFromFunction()
+139: 	 instructions.LoadEnv(0, 0)
+140: 	 instructions.LoadConstant(1)
+141: 	 instructions.IntAddition()
+142: 	 instructions.StoreToEnv(0, 0)
+143: 	 instructions.LoadEnv(0, 0)
+144: 	 instructions.LoadConstant(4)
+145: 	 instructions.CompareEqual()
+146: 	 instructions.TailCallBranch(147, 151)
+147: 	 instructions.LoadConstant(0)
+148: 	 instructions.StoreToEnv(0, 0)
+149: 	 instructions.LoadConstant(0)
+150: 	 instructions.TailCallBranch(151, 151)
+151: 	 instructions.LoadEnv(0, 0)
+152: 	 instructions.ReturnFromFunction()
+153: 	 instructions.LoadEnv(0, 1)
+154: 	 instructions.LoadConstant(0)
+155: 	 instructions.LoadFunction(2)
+156: 	 instructions.CallFunction(2)
+157: 	 instructions.StoreToEnv(0, 2)
+158: 	 instructions.LoadEnv(0, 1)
+159: 	 instructions.LoadConstant(1)
+160: 	 instructions.LoadFunction(2)
+161: 	 instructions.CallFunction(2)
+162: 	 instructions.StoreToEnv(0, 3)
+163: 	 instructions.LoadEnv(0, 3)
+164: 	 instructions.LoadConstant(1)
+165: 	 instructions.LoadFunction(2)
+166: 	 instructions.CallFunction(2)
+167: 	 instructions.StoreToEnv(0, 4)
+168: 	 instructions.LoadEnv(0, 3)
+169: 	 instructions.LoadConstant(2)
+170: 	 instructions.LoadFunction(2)
+171: 	 instructions.CallFunction(2)
+172: 	 instructions.StoreToEnv(0, 5)
+173: 	 instructions.LoadEnv(0, 1)
+174: 	 instructions.LoadConstant(2)
+175: 	 instructions.LoadFunction(2)
+176: 	 instructions.CallFunction(2)
+177: 	 instructions.StoreToEnv(0, 6)
+178: 	 instructions.LoadEnv(0, 1)
+179: 	 instructions.LoadConstant(3)
+180: 	 instructions.LoadFunction(2)
+181: 	 instructions.CallFunction(2)
+182: 	 instructions.StoreToEnv(0, 7)
+183: 	 instructions.LoadEnv(0, 5)
+184: 	 instructions.StoreToEnv(0, 8)
+185: 	 instructions.LoadConstant(0)
+186: 	 instructions.StoreToEnv(0, 9)
+187: 	 instructions.LoadConstant(0)
+188: 	 instructions.StoreToEnv(0, 10)
+189: 	 instructions.LoadConstant(4)
+190: 	 instructions.LoadEnv(0, 10)
+191: 	 instructions.CompareGreater()
+192: 	 instructions.TailCallBranch(193, 217)
+193: 	 instructions.LoadEnv(0, 4)
+194: 	 instructions.LoadEnv(0, 10)
+195: 	 instructions.LoadConstant(0)
+196: 	 instructions.LoadConstant(0)
+197: 	 instructions.LoadFunction(79)
+198: 	 instructions.CallFunction(4)
+199: 	 instructions.StoreToEnv(0, 11)
+200: 	 instructions.LoadEnv(0, 2)
+201: 	 instructions.LoadEnv(0, 11)
+202: 	 instructions.LoadFunction(130)
+203: 	 instructions.CallFunction(2)
+204: 	 instructions.TailCallBranch(205, 211)
+205: 	 instructions.LoadEnv(0, 9)
+206: 	 instructions.LoadConstant(1)
+207: 	 instructions.IntAddition()
+208: 	 instructions.StoreToEnv(0, 9)
+209: 	 instructions.LoadConstant(0)
+210: 	 instructions.TailCallBranch(211, 211)
+211: 	 instructions.LoadEnv(0, 10)
+212: 	 instructions.LoadConstant(1)
+213: 	 instructions.IntAddition()
+214: 	 instructions.StoreToEnv(0, 10)
+215: 	 instructions.LoadConstant(0)
+216: 	 instructions.TailCallBranch(189, 189)
+217: 	 instructions.LoadEnv(0, 2)
+218: 	 instructions.LoadEnv(0, 4)
+219: 	 instructions.LoadEnv(0, 8)
+220: 	 instructions.LoadConstant(0)
+221: 	 instructions.LoadConstant(0)
+222: 	 instructions.LoadFunction(79)
+223: 	 instructions.CallFunction(4)
+224: 	 instructions.LoadFunction(130)
+225: 	 instructions.CallFunction(2)
+226: 	 instructions.LoadConstant(0)
+227: 	 instructions.CompareEqual()
+228: 	 instructions.TailCallBranch(229, 235)
+229: 	 instructions.LoadEnv(0, 8)
+230: 	 instructions.LoadFunction(139)
+231: 	 instructions.CallFunction(1)
+232: 	 instructions.StoreToEnv(0, 8)
+233: 	 instructions.LoadConstant(0)
+234: 	 instructions.TailCallBranch(217, 217)
+235: 	 instructions.LoadEnv(0, 8)
+236: 	 instructions.ReturnFromFunction()
+237: 	 instructions.LoadConstant(0)
+238: 	 instructions.LoadConstant(0)
+239: 	 instructions.LoadConstant(0)
+240: 	 instructions.LoadConstant(0)
+241: 	 instructions.AllocateCons()
+242: 	 instructions.AllocateCons()
+243: 	 instructions.LoadConstant(0)
+244: 	 instructions.LoadConstant(0)
+245: 	 instructions.LoadConstant(0)
+246: 	 instructions.LoadConstant(0)
+247: 	 instructions.LoadConstant(0)
+248: 	 instructions.LoadConstant(0)
+249: 	 instructions.LoadConstant(0)
+250: 	 instructions.LoadConstant(0)
+251: 	 instructions.LoadConstant(0)
+252: 	 instructions.LoadConstant(0)
+253: 	 instructions.LoadFunction(153)
+254: 	 instructions.CallFunction(12)
+255: 	 instructions.ReturnFromFunction()
+
+Source:
+LDC 0
+TSEL 237 237
+LD 0 1
+LDC 0
+CGT
+TSEL 6 15
+LD 0 0
+CDR
+ST 0 0
+LD 0 1
+LDC 1
+SUB
+ST 0 1
+LDC 0
+TSEL 2 2
+LD 0 0
+CAR
+RTN
+LD 0 0
+LD 0 1
+CAR
+LDF 2
+AP 2
+LD 0 1
+CDR
+LDF 2
+AP 2
+RTN
+LDC -1
+LDC 0
+LDC 0
+CONS
+CONS
+LDC 0
+LDC 1
+LDC 0
+CONS
+CONS
+LDC 1
+LDC 0
+LDC 0
+CONS
+CONS
+LDC 0
+LDC -1
+LDC 0
+CONS
+CONS
+LDC 0
+LDC 0
+LDC 0
+CONS
+CONS
+LDC 0
+CONS
+CONS
+CONS
+CONS
+CONS
+ST 0 2
+LD 0 2
+LD 0 1
+LDF 2
+AP 2
+ST 0 3
+LD 0 0
+CAR
+LD 0 3
+CAR
+ADD
+LD 0 0
+CDR
+LD 0 3
+CDR
+ADD
+LDC 0
+CONS
+CONS
+RTN
+LDC -1
+LDC 0
+LDC 0
+CONS
+CONS
+LDC 0
+LDC 1
+LDC 0
+CONS
+CONS
+LDC 1
+LDC 0
+LDC 0
+CONS
+CONS
+LDC 0
+LDC -1
+LDC 0
+CONS
+CONS
+LDC 0
+LDC 0
+LDC 0
+CONS
+CONS
+LDC 0
+CONS
+CONS
+CONS
+CONS
+CONS
+ST 0 2
+LD 0 2
+LD 0 1
+LDF 2
+AP 2
+ST 0 3
+LD 0 0
+CAR
+LD 0 3
+CAR
+ADD
+LD 0 0
+CDR
+LD 0 3
+CDR
+ADD
+LDC 0
+CONS
+CONS
+RTN
+LD 0 0
+LD 0 1
+LDF 18
+AP 2
+LDC 0
+CEQ
+LDC 0
+CEQ
+RTN
+LD 0 0
+LDC 1
+ADD
+ST 0 0
+LD 0 0
+LDC 4
+CEQ
+TSEL 147 151
+LDC 0
+ST 0 0
+LDC 0
+TSEL 151 151
+LD 0 0
+RTN
+LD 0 1
+LDC 0
+LDF 2
+AP 2
+ST 0 2
+LD 0 1
+LDC 1
+LDF 2
+AP 2
+ST 0 3
+LD 0 3
+LDC 1
+LDF 2
+AP 2
+ST 0 4
+LD 0 3
+LDC 2
+LDF 2
+AP 2
+ST 0 5
+LD 0 1
+LDC 2
+LDF 2
+AP 2
+ST 0 6
+LD 0 1
+LDC 3
+LDF 2
+AP 2
+ST 0 7
+LD 0 5
+ST 0 8
+LDC 0
+ST 0 9
+LDC 0
+ST 0 10
+LDC 4
+LD 0 10
+CGT
+TSEL 193 217
+LD 0 4
+LD 0 10
+LDC 0
+LDC 0
+LDF 79
+AP 4
+ST 0 11
+LD 0 2
+LD 0 11
+LDF 130
+AP 2
+TSEL 205 211
+LD 0 9
+LDC 1
+ADD
+ST 0 9
+LDC 0
+TSEL 211 211
+LD 0 10
+LDC 1
+ADD
+ST 0 10
+LDC 0
+TSEL 189 189
+LD 0 2
+LD 0 4
+LD 0 8
+LDC 0
+LDC 0
+LDF 79
+AP 4
+LDF 130
+AP 2
+LDC 0
+CEQ
+TSEL 229 235
+LD 0 8
+LDF 139
+AP 1
+ST 0 8
+LDC 0
+TSEL 217 217
+LD 0 8
+RTN
+LDC 0
+LDC 0
+LDC 0
+LDC 0
+CONS
+CONS
+LDC 0
+LDC 0
+LDC 0
+LDC 0
+LDC 0
+LDC 0
+LDC 0
+LDC 0
+LDC 0
+LDC 0
+LDF 153
+AP 12
+RTN
+

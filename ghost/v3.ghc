@@ -1,0 +1,104 @@
+mov [206], 2 ;main; <- auto_ret_point_0; <- get_lambda_coords_###
+jeq 80, 0, 0; <- get_lambda_coords
+mov [205], 4 ;auto_ret_point_0; <- auto_ret_point_1; <- get_my_coords_###
+jeq 74, 0, 0; <- get_my_coords
+mov [101], 255 ;auto_ret_point_1
+mov G, 0
+mov E, [0]
+mov F, [1]
+mov [209], 10; <- auto_ret_point_2; <- get_dist_###
+jeq 90, 0, 0; <- get_dist
+mov [99], 127 ;auto_ret_point_2
+sub [99], D
+int 3
+int 6
+mov [204], 16; <- auto_ret_point_3; <- opposite_###
+jeq 65, 0, 0; <- opposite
+mov [110], D ;auto_ret_point_3
+mov H, 0
+jeq 34, H, [110] ;dir_loop; <- continue_dir_loop
+mov E, [0]
+mov F, [1]
+mov D, H
+mov [207], 24; <- auto_ret_point_4; <- move_###
+jeq 44, 0, 0; <- move
+mov A, E ;auto_ret_point_4
+mov B, F
+mov [208], 28; <- is_free_###; <- auto_ret_point_5
+jeq 69, 0, 0; <- is_free
+jeq 34, D, 0 ;auto_ret_point_5; <- continue_dir_loop
+mov [209], 31; <- auto_ret_point_6; <- get_dist_###
+jeq 90, 0, 0; <- get_dist
+jgt 34, D, [101] ;auto_ret_point_6; <- continue_dir_loop
+mov [101], D
+mov G, H
+add H, 1 ;continue_dir_loop
+jlt 18, H, 4; <- dir_loop
+mov A, [0]
+mov B, [1]
+mov C, G
+mov D, [101]
+int 8
+mov A, G
+int 0
+hlt
+jeq 48, D, 0 ;move; <- move_up
+jeq 50, D, 1; <- move_right
+jeq 52, D, 2; <- move_down
+jeq 54, D, 3; <- move_left
+sub F, 1 ;move_up
+jeq 56, 0, 0; <- ret_move
+add E, 1 ;move_right
+jeq 56, 0, 0; <- ret_move
+add F, 1 ;move_down
+jeq 56, 0, 0; <- ret_move
+sub E, 1 ;move_left
+jeq 56, 0, 0; <- ret_move
+mov D, 0 ;ret_move
+jeq 24, [207], 24; <- move_###; <- auto_ret_point_4
+jgt 61, E, F ;dist; <- calc_dist
+mov [202], 61; <- auto_ret_point_7; <- swap_###
+jeq 85, 0, 0; <- swap
+sub E, F ;auto_ret_point_7 ;calc_dist
+mov D, E
+jeq 95, [203], 95; <- dist_###; <- auto_ret_point_8
+jeq 100, [203], 100; <- auto_ret_point_9; <- dist_###
+add B, 2 ;opposite
+and B, 3
+mov D, B
+jeq 16, [204], 16; <- auto_ret_point_3; <- opposite_###
+int 7 ;is_free
+jeq 72, A, 0; <- ret_is_free
+mov A, 1
+mov D, A ;ret_is_free
+jeq 28, [208], 28; <- is_free_###; <- auto_ret_point_5
+int 3 ;get_my_coords
+int 5
+mov [0], A
+mov [1], B
+mov D, 0
+jeq 4, [205], 4; <- auto_ret_point_1; <- get_my_coords_###
+int 1 ;get_lambda_coords
+mov [2], A
+mov [3], B
+mov D, 0
+jeq 2, [206], 2; <- get_lambda_coords_###; <- auto_ret_point_0
+xor E, F ;swap
+xor F, E
+xor E, F
+mov D, 0
+jeq 61, [202], 61; <- auto_ret_point_7; <- swap_###
+mov [10], E ;get_dist
+mov [11], F
+mov F, [2]
+mov [203], 95; <- dist_###; <- auto_ret_point_8
+jeq 58, 0, 0; <- dist
+mov [12], D ;auto_ret_point_8
+mov E, [11]
+mov F, [3]
+mov [203], 100; <- auto_ret_point_9; <- dist_###
+jeq 58, 0, 0; <- dist
+add [12], D ;auto_ret_point_9
+mov D, [12]
+jeq 10, [209], 10; <- auto_ret_point_2; <- get_dist_###
+jeq 31, [209], 31; <- auto_ret_point_6; <- get_dist_###

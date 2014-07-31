@@ -1,0 +1,205 @@
+mov g, 0
+
+int 3
+int 5
+mov [1], a
+mov [2], b
+int 1
+mov [3], a
+mov [4], b
+
+mov d, 6
+mov e, 0
+
+; up
+inc e
+mov c, 0
+mov a, [1]
+mov b, [2]
+dec b
+int 7
+jeq cont1, a, 0
+mov a, [1]
+mov b, [3]
+jeq moddiff, 1, 1
+moddone1x:
+jgt moddone2x, e, 1
+jgt moddone1y, c, 0
+inc c
+mov f, a
+div f, 2
+mov a, [2]
+dec a
+mov b, [4]
+jeq moddiff, 1, 1
+moddone1y:
+div a, 2
+add f, a 
+mov [d], 0
+inc d
+mov [d], f
+inc d
+inc g
+
+
+cont1:
+; right
+inc e
+mov c, 0
+mov a, [1]
+mov b, [2]
+inc a
+int 7
+jeq cont2, a, 0
+mov a, [1]
+inc a
+mov b, [3]
+jeq moddiff, 1, 1
+moddone2x:
+jgt moddone3x, e, 2
+jgt moddone2y, c, 0
+inc c 
+mov f, a
+div f, 2
+mov a, [2]
+mov b, [4]
+jeq moddiff, 1, 1
+moddone2y:
+div a, 2
+add f, a
+mov [d], 1
+inc d
+mov [d], f
+inc d
+inc g
+
+
+cont2:
+; down
+inc e
+mov c, 0
+mov a, [1]
+mov b, [2]
+inc b
+int 7
+jeq cont3, a, 0
+mov a, [1]
+mov b, [3]
+jeq moddiff, 1, 1
+moddone3x:
+jgt moddone4x, e, 3
+jgt moddone3y, c, 0
+inc c
+mov f, a
+div f, 2
+mov a, [2]
+inc a
+mov b, [4]
+jeq moddiff, 1, 1
+moddone3y:
+div a, 2
+add f, a 
+mov [d], 2
+inc d
+mov [d], f
+inc d
+inc g
+
+
+cont3:
+; left
+inc e
+mov c, 0
+mov a, [1]
+mov b, [2]
+dec a
+int 7
+jeq cont4, a, 0
+mov a, [1]
+dec a
+mov b, [3]
+jeq moddiff, 1, 1
+moddone4x:
+jgt moddone4y, c, 0
+inc c 
+mov f, a
+div f, 2
+mov a, [2]
+mov b, [4]
+jeq moddiff, 1, 1
+moddone4y:
+div a, 2
+add f, a 
+mov [d], 3
+inc d
+mov [d], f
+inc d
+inc g
+
+
+
+cont4:
+jlt halt, g, 3
+
+int 3
+int 6 
+mov a, h
+
+mov a, [6]
+mov b, [7]
+mov c, 9
+mov d, 1
+
+jeq searchmax, 1, h
+
+searchmin:
+jeq minfound, d, g
+jgt swap, [c], b
+mov b, [c]
+dec c
+mov a, [c]
+inc c
+swap:
+add c, 2
+inc d
+
+
+jeq searchmin, 1, 1
+
+searchmax:
+jeq minfound, d, g
+jlt swap2, [c], b
+mov b, [c]
+dec c
+mov a, [c]
+inc c
+swap2:
+add c, 2
+inc d
+
+
+jeq searchmax, 1, 1
+
+
+minfound:
+jeq halt, 1, 1
+
+moddiff:
+jeq equal, a, b
+jgt more, a, b
+mov [255], a
+mov a, b
+mov b, [255]
+jeq more, 1, 1
+equal:
+mov a, 0
+jeq moddone1x, 1, 1
+more:
+sub a, b
+jeq moddone1x, 1, 1
+
+halt:
+
+
+int 0
+hlt
