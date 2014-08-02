@@ -2,9 +2,6 @@
 ## Team "Snakes vs Lambdas" @ ICFPC 2014
 
 
-==========
-
-
 ### Compiling the Snake
 or
 ### How to translate from python to another language in 3 days
