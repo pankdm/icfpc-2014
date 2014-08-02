@@ -17,7 +17,8 @@ We've used BFS for computing cost function of each of the possible moves. Cost f
 To fit in the time limit we've limited positions that are considered in BFS to the window of size 31 x 31 with the center in Lambda-man.
 This algorithm was implemented in python, see smart_algo_implementation.py
 
-For implementing Lambda-man AI, we've used some simplified dialect of Python, which was translated to syntax tree, which were used for generation of Lambda-man CPU assembly language. This allowed us to do development of algorithm in python using our world emulator (emulator.py), while compilator to Lambda-man CPU assembly language was developed.
+For implementing Lambda-man AI, we've used some simplified dialect of Python, which was translated to syntax tree.
+Then the tree was used for generation of Lambda-man CPU assembly language. This allowed us to do development of algorithm in python using our world emulator (emulator.py), while compilator to Lambda-man CPU assembly language was developed.
 The compilator was implemented using python module ast and supports some features that are not part of original Lambda-man CPU (for example arrays).
 
 ### Ghosts AI
