@@ -4,7 +4,9 @@
 
 #### Lambda-man AI
 
+
 We've used BFS for computing cost function of each of the possible moves. Cost fucntion depends on:
+
 1. Shortest distances to pills
 2. Distance to closest pill
 3. Distance to closest ghost
@@ -251,6 +253,7 @@ filled with the last `n` values from the stack.
 The only problem is that address should be absolute which it leads us to obvious solution: labels.
 
 Here comes new byte code commands:
+
 1. `Label(label)` and
 2. `LoadFunctionLabel(label)`.
 
@@ -258,6 +261,7 @@ At the last step of compilation process the second will be translated to the abs
 
 
 First we need to parse function definition in `visit_FunctionDef`. we will produce new byte code ApplyFunction containing the following information:
+
 1. name of the function
 2. number of arguments
 3. byte code of the function body
@@ -359,6 +363,7 @@ I was mainly working on compiler so I can share only a few words about AI algori
 A few words about ai algorithm that we implemented.
 Our AI on each step executes a BFS for the window of size 31 * 31 with the center in packman and computes a cost function.
 This function depends on the following parameters:
+
 1. Shortest distances to pill
 2. Distance to closest pill
 3. Distance to closest ghost
