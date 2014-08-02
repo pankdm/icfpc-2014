@@ -14,7 +14,7 @@ def assert_type(obj, class_type):
 def assert_not_type(obj, class_type):
     if not isinstance(obj, class_type):
         return
-    print obj
+    # print obj
     assert False
 
 # data to store function definition in compiler
@@ -30,7 +30,7 @@ class FunctionImpl:
 ArrayAllocation = namedtuple(
     'ArrayAllocation',
     ['offset', 'size'],
-    verbose = True
+    verbose = False
 )
 
 # class to represent
@@ -209,7 +209,7 @@ class ApplyFunction(IExpandable):
             CallFunction(num_variables)
         ]
         result = ByteCode.from_list(output)
-        print result
+        # print result
         return result
 
 

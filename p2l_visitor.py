@@ -19,7 +19,7 @@ class P2LVisitor(ast.NodeVisitor):
         # print 'Visiting', node
         byte_code = ast.NodeVisitor.visit(self, node)
         # print
-        print 'Visited', node
+        # print 'Visited', node
         # print byte_code
         # byte_code.show_without_source()
         assert isinstance(byte_code, ByteCode), str(byte_code)
@@ -336,7 +336,7 @@ class P2LVisitor(ast.NodeVisitor):
             assign = scope.produce_assign_byte_code(var_name)
             byte_code.append_byte_code( assign )
         else:
-            print 'Need to alocate', var_name
+            # print 'Need to alocate', var_name
             # allocate new space for variable
             if self.process_consts:
                 # add to global array

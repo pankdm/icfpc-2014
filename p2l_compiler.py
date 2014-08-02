@@ -8,17 +8,7 @@ from p2l_internals import *
 from p2l_visitor import P2LVisitor
 from p2l_supported import *
 from p2l_labels import *
-
-def read_code(file_name):
-    f = open(file_name, 'rt')
-    code = ''.join(f.readlines())
-    return code
-
-def write_to_file(file_name, code):
-    f = open(file_name, 'wt')
-    f.write(code)
-    f.close()
-
+from util import *
 
 class P2LCompiler:
     def __init__(self):
@@ -44,6 +34,10 @@ class P2LCompiler:
         self.use_submit_mode = False
         self.use_standard_library = True
         self.WORK_DIR = 'p2l_workdir'
+
+    def save_in_work_dir(self, file_name, data):
+        file_path = self.WORK_DIR + '/' + file_name
+        write_to_file(file_path, data)
 
     def local_vars(self):
         return self.local_vars_stack[-1]
@@ -88,7 +82,7 @@ class P2LCompiler:
         if self.use_standard_library:
             code = P2LCompiler.with_standard_library(code)
 
-        write_to_file('p2l_workdir/input_with_stl.py', code)
+        self.save_in_work_dir('input_with_stl.py', code)
 
         self.include_constants()
         self.add_precompiled_code()
@@ -100,8 +94,8 @@ class P2LCompiler:
         with_main = self.add_main(byte_code)
         expanded_code = self.expand_byte_code(with_main)
 
-        write_to_file(
-            'p2l_workdir/with_labels.gcc',
+        self.save_in_work_dir(
+            'with_labels.gcc',
             expanded_code.dump_without_source())
 
         code_without_labels = self.replace_labels(expanded_code)
@@ -115,8 +109,8 @@ class P2LCompiler:
 
         function = search_in_builtin(func_name)
         if function:
-            print 'Found "{}" in built-in functions'.format(
-                func_name)
+            # print 'Found "{}" in built-in functions'.format(
+            #     func_name)
             return function
 
         if function == None:
@@ -161,21 +155,21 @@ class P2LCompiler:
 
 
     def expand_byte_code(self, main_byte_code):
-        print
-        print 'This code before expansion:'
-        main_byte_code.show_without_source()
+        # print
+        # print 'This code before expansion:'
+        # main_byte_code.show_without_source()
 
         # iterate on expansion until all operands are expanded
         it = 0
         while (True):
-            print 'Expansion iteration, ', it
+            # print 'Expansion iteration, ', it
             result = ByteCode()
             no_changes = True
             for op in main_byte_code.output:
                 if isinstance(op, IExpandable):
                     # here we need to expand operand
                     expanded_byte_code = op.expand()
-                    print 'Expanding ', op
+                    # print 'Expanding ', op
                     result.append_byte_code(expanded_byte_code)
                     no_changes = False
                 else:
@@ -184,9 +178,9 @@ class P2LCompiler:
             it += 1
             if no_changes: break
 
-        print
-        print 'This code was expanded:'
-        main_byte_code.show_without_source()
+        # print
+        # print 'This code was expanded:'
+        # main_byte_code.show_without_source()
         return main_byte_code
 
     # changes byte_code in place
@@ -235,12 +229,11 @@ def main():
         code = read_code(sys.argv[1])
     else:
         code = read_code('p2l/1.lisp.py')
-    # parseprint(code)
-    # dump syntax tree to file
-    write_to_file('p2l_workdir/syntax_tree.py', dump(parse(code)))
-    write_to_file('p2l_workdir/input.py', code)
 
     p2l = P2LCompiler()
+    p2l.save_in_work_dir('syntax_tree.py', dump(parse(code)))
+    p2l.save_in_work_dir('input.py', code)
+
     # p2l.use_submit_mode = True
     # p2l.use_standard_library = False
 
@@ -250,7 +243,7 @@ def main():
 
     # print 'Source:'
     # print byte_code.to_source()
-    write_to_file('p2l_workdir/submit.gcc', byte_code.to_source())
+    p2l.save_in_work_dir('submit.gcc', byte_code.to_source())
 
     print
     print 'OK'
