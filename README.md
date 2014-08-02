@@ -132,6 +132,7 @@ So I started learning how to use this library.
 Using ast module was as easy as most of the things in python (see http://xkcd.com/353/)
 
 As a proof of concept I decided to start with the simplest program I could imagine. It should contain the following
+
 1. Usage of integers (it is the simplest data structures of vm)
 2. Usage of `DBUG` instruction, because we need to somehow observe the behavior of program which is only supported by this command
 
@@ -178,6 +179,7 @@ Thanks to dynamic typing in python you can return whatever you want from the fun
 
 We proceeded with the classic test driven development (TDD):
 When you need to implement a feature or fix a bug:
+
 1. write a test for it
 2. make sure it fails
 3. write a code that fixes the test
@@ -210,6 +212,7 @@ Lets make a natural agreement that bytecode for 5 will put a number 5 on the sta
 But using only numbers and debug printing is kind of hard write an AI. So we need to support more features in simple python.
 
 In the process of supporting new features I was mostly doing the following in order:
+
 1. create the file with simple example of usage of new syntax
 2. look at the astt of code in it
 3. find name of the element that you currently don’t support
