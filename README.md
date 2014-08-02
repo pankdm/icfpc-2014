@@ -11,6 +11,7 @@ We've used BFS for computing cost function of each of the possible moves. Cost f
 4. Distance to fruit
 5. Fright mode
 
+
 To fit in the time limit we've limited positions that are considered in BFS to the window of size 31 x 31 with the center in Lambda-man.
 This algorithm was implemented in python, see smart_algo_implementation.py
 
