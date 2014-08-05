@@ -7,4 +7,5 @@ def foo():
 
 foo()
 
-# prints 50
+# prints 
+# 50

@@ -95,7 +95,7 @@ class P2LCompiler:
         expanded_code = self.expand_byte_code(with_main)
 
         self.save_in_work_dir(
-            'with_labels.gcc',
+            'with_labels.byte_code',
             expanded_code.dump_without_source())
 
         code_without_labels = self.replace_labels(expanded_code)
@@ -127,9 +127,17 @@ class P2LCompiler:
         result = ByteCode()
 
         if self.use_submit_mode:
-            result.append( LoadConstant(0) )
-            result.append( LoadFunctionLabel('main') )
-            result.append( AllocateCons() )
+            # result.append( LoadConstant(0) ) # ai state
+            # result.append( LoadFunctionLabel('main') ) # step function
+            # result.append( AllocateCons() )
+            # result.append( ReturnFromFunction() )
+
+
+            # experimental code
+            # result.append( LoadConstant(0) ) # ai state
+            result.append( LoadFunctionLabel('main') ) # step function
+            result.append( CallFunction(2) )
+            # result.append( AllocateCons() )
             result.append( ReturnFromFunction() )
         else:
             result.append( LoadConstant(0) )

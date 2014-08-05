@@ -1,18 +1,13 @@
 
 from emulator import *
-from smart_algo_implementation import *
 from world_converter import *
-
-class LambdaManAI(AI):
-    def get_next_move(self, ai_state, world_state):
-        return main(ai_state, convert_world(world_state))[1]
 
 class ChaseGhostAI(AI):
     def __init__(self, index):
         self.index = index
 
     def get_next_move(self, ghosts, world):
-        print self.index, 'was asked to move'
+        # print self.index, 'was asked to move'
 
         # for f in world[0]:
         #     print ''.join(f)
@@ -57,18 +52,5 @@ class ChaseGhostAI(AI):
         # print 'will go to ', d
         # raw_input('Press Enter')
         return d
-
-if __name__ == '__main__':
-    world = World()
-    world.load_map_from_file('maps/world-4-busters.txt')
-    world.wait_after_each_turn = len(sys.argv) > 1
-
-    world.set_man_ai(LambdaManAI())
-    world.set_ghost_ai(0, ChaseGhostAI(0))
-    world.set_ghost_ai(1, ChaseGhostAI(0))
-    world.set_ghost_ai(2, ChaseGhostAI(0))
-    world.set_ghost_ai(3, ChaseGhostAI(0))
-
-    world.run()
 
 

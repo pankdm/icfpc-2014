@@ -190,6 +190,8 @@ class ConditionalBranch(AbstractOp):
 	arity = 2
 
 	def mutate(self, vm):
+		x = vm.data_stack.pop()
+
 		go_true, go_false = self.args
 		assert (x.tag == Tag.INTEGER)
 
@@ -374,8 +376,8 @@ class DebugPrint(AbstractOp):
 	name = 'DBUG'
 	def mutate(self, vm):
 		value = vm.data_stack.pop()
-		print 'Value on top of stack was', value
-		vm.trace_output.append(repr(value))
+		print 'DBUG: {} ({})'.format(value, value.__class__)
+		vm.trace_output.append( value )
 		vm.counter += 1
 
 

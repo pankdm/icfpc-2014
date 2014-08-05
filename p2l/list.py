@@ -3,5 +3,5 @@ def foo(xy):
 
 foo([3,5,7])
 
-# prints
+# prints:
 # (3, (5, (7, 0)))

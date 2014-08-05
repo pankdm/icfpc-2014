@@ -9,7 +9,7 @@ def foo(z):
 
 foo(3)
 
-# prints
+# prints:
 # 10
 # 20
-# 23
+# 33

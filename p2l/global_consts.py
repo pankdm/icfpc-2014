@@ -3,6 +3,7 @@ def is_wall(value):
 
 PRINT(is_wall(0))
 PRINT(is_wall(1))
-# Expected output:
+
+# prints:
 # 1
 # 0

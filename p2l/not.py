@@ -3,3 +3,8 @@ def foo(x):
 
 PRINT(foo(1))
 PRINT(foo(0))
+
+
+# prints:
+# 0
+# 1

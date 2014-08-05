@@ -1,5 +1,7 @@
 # API:
+ # by default it is initalized with zeros
 # a = ALLOCATE_ARRAY(size)
+#
 # SET_ARRAY_VALUE(a, index, value)
 # GET_ARRAY_VALUE(a, index)
 
@@ -33,3 +35,4 @@ foo()
 # 10
 # 15
 # 23
+# 0

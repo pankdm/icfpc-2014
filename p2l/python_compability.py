@@ -5,3 +5,7 @@ def foobar():
     return 2
 
 PRINT(foobar())
+
+
+# prints:
+# 2

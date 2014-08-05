@@ -12,7 +12,7 @@ class VM:
 	def __init__(self):
 		self.counter = 0
 		self.data_stack = []
-		self.current_frame = None
+		self.current_frame = EnvFrame(2)
 		self.control_stack = [VmData(Tag.STOP)]
 		self.trace_output = []
 

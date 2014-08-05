@@ -7,6 +7,6 @@ def foo(x):
 
 foo(5)
 
-# prints
+# prints:
 # 5
 # 10

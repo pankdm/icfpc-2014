@@ -96,6 +96,11 @@ class World:
         self.fruit_y = 0
         self.the_beginning = True
         self.wait_after_each_turn = False
+        self.show_each_turn = True
+
+        self.prev_score = 0
+        self.nothing_changed = 0
+        self.should_stop = False
 
     def load_map_from_file(self, file_name):
         self.data = []
@@ -133,6 +138,7 @@ class World:
         else:
             self.map_level = int(S / 100) + 1
         self.eol = 127 * S * 16
+        # print self.ghosts
 
     def reset_world(self):
         for ghost in self.ghosts:
@@ -143,7 +149,8 @@ class World:
         self.man.ai = ai
 
     def set_ghost_ai(self, index, ai):
-        self.ghosts[index].ai = ai
+        if index < len(self.ghosts):
+            self.ghosts[index].ai = ai
 
 
     def show(self):
@@ -164,25 +171,35 @@ class World:
         print 'Alt mode left: ' + str(self.alt_mode_left)
         print 'Next man tick ' + str(self.man.next_tick)
         print 'Lives ' + str(self.man.lives)
+    
     def run(self):
-        os.system('clear')
-        self.show()
+        if self.show_each_turn:
+            os.system('clear')
+            self.show()
         while self.alive() and self.any_pills_left():
+            self.maybe_dump_debug_info()
+    
             self.moved_this_tick = False
             self.update_creatures()
             if self.moved_this_tick or self.the_beginning:
-                os.system('clear')
-                self.show()
+                if self.show_each_turn:
+                    os.system('clear')
+                    self.show()
                 self.get_next_moves()
             self.update_world()
             self.tick += 1
+
+            if self.should_stop:
+                print 'STOPPED'
+                self.man.lives = 0
+            # if self.tick >= self.eol:
             if self.tick >= self.eol:
                 print "EOL!!!!"
                 self.man.lives = 0
             self.the_beginning = False
         if not self.any_pills_left():
             self.score *= (self.man.lives + 1)
-            print 'Wictory!'
+            print 'Victory!'
             return
         else:
             print 'Game Over'
@@ -218,6 +235,7 @@ class World:
                 creature.next_tick += creature.tick_step_alt
             else:
                 creature.next_tick += creature.tick_step
+    
     def update_creatures(self):
         self.update_creature(self.man)
         for ghost in self.ghosts:
@@ -249,6 +267,21 @@ class World:
         creature.y = y
         creature.x = x
         return True
+
+    def maybe_dump_debug_info(self):
+        if self.tick % 10000 == 0:
+            if self.prev_score == self.score:
+                self.nothing_changed += 1
+                if self.nothing_changed >= 5:
+                    self.should_stop = True
+            else:
+                self.nothing_changed = 0
+            self.prev_score = self.score
+            print 'Tick = {} ({}%) Score = {}, lives = {}'.format(
+                self.tick,
+                round(100. * self.tick / self.eol, 1),
+                self.score, 
+                self.man.lives)
 
     def get_available_moves(self, creature):
         res = []

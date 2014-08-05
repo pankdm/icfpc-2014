@@ -61,6 +61,12 @@ def from_2d_pair_centered(xy, cxy):
     return WINDOW_SIZE * SECOND(true_xy) + FIRST(true_xy)
 
 
+# magic spells to include files from outer dir
+import os
+import sys
+# sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
+
 from include.python_stl import *
 from include.common import *
 import random
