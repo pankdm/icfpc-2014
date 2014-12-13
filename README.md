@@ -378,3 +378,7 @@ This function depends on the following parameters:
 ### Ghosts AI
 
 It selects the cell which is the closest to lambda-man according to Manhattan distance `abs(x1 - x2) + abs(y1 - y2)`. It will also try to choose the furthest cell if Lambda-man is in fright mode.The code was written mostly manually with some tools that simplify implementation of code by generation of functions and some other features.
+
+### Results
+
+We made to 25th place in overall ranking (see RESULTS.txt).
