@@ -122,7 +122,7 @@ class IntAddition(IntOperation):
           return x + y
 ```
 
-### Python 2 Lisp compiler
+### Python --> Lisp compiler
 
 The next day I googled internet for AST (Abstract syntax tree) and found that there is nice library for producing and sat for python code.
 
