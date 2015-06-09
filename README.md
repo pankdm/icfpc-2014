@@ -1,5 +1,11 @@
 ## Team "Snakes vs Lambdas" @ ICFPC 2014
 
+Teamb members:
+ * A.D.
+ * A.M.
+ * D.P.
+ * P.K.
+
 ### Short version:
 
 #### Lambda-man AI
