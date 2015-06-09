@@ -1,6 +1,6 @@
 ## Team "Snakes vs Lambdas" @ ICFPC 2014
 
-Teamb members:
+Team members:
  * A.D.
  * A.M.
  * D.P.
